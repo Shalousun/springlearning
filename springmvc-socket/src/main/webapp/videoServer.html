@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="statics/js/jquery-1.11.1.min.js"></script>
+    <script src="statics/js/sockjs.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var video = document.getElementById("video");
+            var canvas = document.getElementById("canvas"),
+                    context = canvas.getContext("2d");
+            var w;
+            if (navigator.webkitGetUserMedia) {
+                navigator.webkitGetUserMedia({ video: true }, function (stream) {
+                    video.src = window.webkitURL.createObjectURL(stream);
+                    video.play();
+                    w = new WebSocket(url);
+                    w.onopen = function () {
+                        sendImg();
+                    }
+                    w.onmessage = function (e) {
+                        sendImg();
+                    }
+
+                }, function () {
+                    console.log("video error");
+                });
+
+
+                var host = 'localhost';
+                var port = 8080;
+                var url = 'ws://' + host + ':' + port + '/webSocketServer';
+
+                function sendImg() {
+                    context.drawImage(video, 0, 0, 320, 320);
+                    var imgData = canvas.toDataURL();
+                   // w.send(imgData);
+                    $.ajax({
+                        url: 'http://localhost:8080/sendMsg',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            username: 'sunyu',
+                            msg: imgData
+                        },
+                        success: function (result) {
+                            console.log("result");
+                        }
+                    })
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+<video id="video" width="640" height="480" style="background:#000;" autoplay></video>
+<canvas style="display:none" id="canvas" width="320" height="320"></canvas>
+</body>
+</html>
