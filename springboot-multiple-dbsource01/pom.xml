@@ -5,7 +5,7 @@
     <artifactId>springboot-mutiple-datasource01</artifactId>
     <packaging>jar</packaging>
 
-    <name>springboot-mutiple-datasource01</name>
+    <name>springboot-multiple-datasource01</name>
     <url>http://maven.apache.org</url>
     <parent>
         <groupId>org.springframework.boot</groupId>
