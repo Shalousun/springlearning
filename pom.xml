@@ -6,9 +6,10 @@
   <artifactId>spring-learning</artifactId>
   <version>1.0-SNAPSHOT</version>
   <modules>
-    <module>springboot-mutiple-dbsource01</module>
+    <module>springboot-multiple-dbsource01</module>
     <module>springmvc-socket</module>
     <module>SpringRabbitMQ</module>
+    <module>springboot-multiple-dbsource02</module>
   </modules>
   <packaging>pom</packaging>
 
