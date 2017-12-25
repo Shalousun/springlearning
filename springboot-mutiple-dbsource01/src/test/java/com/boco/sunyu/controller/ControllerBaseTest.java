@@ -1,6 +1,8 @@
 package com.boco.sunyu.controller;
 
 import com.boco.sunyu.config.DataSourceConfig;
+import com.boco.sunyu.config.DataSourceOneConfig;
+import com.boco.sunyu.config.DataSourceTwoConfig;
 import com.boco.sunyu.config.TransactionManagerConfig;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(classes = { DataSourceConfig.class, TransactionManagerConfig.class })
+@ContextConfiguration(classes = { DataSourceOneConfig.class, DataSourceTwoConfig.class, TransactionManagerConfig.class })
 @Transactional(value = "transactionManager", rollbackFor = Exception.class)
 @AutoConfigureMockMvc
 public class ControllerBaseTest extends AbstractTransactionalJUnit4SpringContextTests {
