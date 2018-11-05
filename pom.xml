@@ -12,6 +12,7 @@
     <module>SpringRabbitMQ</module>
     <module>SpringRedisMQ</module>
     <module>SpringMvcRocketMQ</module>
+    <module>SpringBoot2-Redisson</module>
   </modules>
   <packaging>pom</packaging>
 
