@@ -2,6 +2,7 @@ package com.sunyu.redission.error;
 
 import com.power.common.model.CommonResult;
 import com.sunyu.redission.enums.ErrorCodeEnum;
+import com.sunyu.redission.exception.RateLimitException;
 import com.sunyu.redission.util.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,6 +79,17 @@ public class RestExceptionHandler {
     public CommonResult unknownException(Exception ex) {
         LOGGER.error("Error code 500：{}", ex);
         return new CommonResult("500", ex.getMessage());
+    }
+
+    /**
+     * 用户访问超过限制异常
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = {RateLimitException.class})
+    public CommonResult requestLimitException(Exception ex){
+        LOGGER.error("访问超过限制",ex);
+        return ResultUtil.error(ErrorCodeEnum.RATE_LIMIT_ERROR);
     }
 
 
