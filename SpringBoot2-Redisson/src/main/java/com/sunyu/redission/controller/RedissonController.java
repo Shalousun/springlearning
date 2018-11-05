@@ -1,6 +1,7 @@
 package com.sunyu.redission.controller;
 
 import com.power.common.model.CommonResult;
+import com.power.common.util.RandomUtil;
 import com.sunyu.redission.enums.ErrorCodeEnum;
 import com.sunyu.redission.util.ResultUtil;
 import org.redisson.api.*;
@@ -19,6 +20,7 @@ public class RedissonController {
 
     @Autowired
     private RedissonClient redisson;
+
 
     /**
      * long自增
@@ -54,4 +56,22 @@ public class RedissonController {
             return ResultUtil.error(ErrorCodeEnum.RATE_LIMIT_ERROR);
         }
     }
+
+    @GetMapping("put")
+    public CommonResult rset(){
+        RSet<Integer> set = redisson.getSet("hello-world");
+        set.add(5);
+        return ResultUtil.success("");
+    }
+
+    @GetMapping("get")
+    public CommonResult rsetGet(){
+        RSet<String> set = redisson.getSet("hello-world");
+        if (!set.isEmpty()) {
+            return ResultUtil.success("");
+        }else {
+            return ResultUtil.error(ErrorCodeEnum.UNKNOWN_ERROR);
+        }
+    }
+
 }

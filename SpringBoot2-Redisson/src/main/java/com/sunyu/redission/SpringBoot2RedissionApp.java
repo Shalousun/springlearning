@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.sunyu.redission.dao")
-public class SpringBootMainApplication {
+public class SpringBoot2RedissionApp {
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootMainApplication.class, args);
+        SpringApplication.run(SpringBoot2RedissionApp.class, args);
     }
 }
