@@ -12,7 +12,9 @@ public enum ErrorCodeEnum {
 
     PARAM_ERROR("1002", "参数格式错误"),
 
-    UNKNOWN_ERROR("9999", "系统繁忙，请稍后再试....");
+    UNKNOWN_ERROR("9999", "系统繁忙，请稍后再试...."),
+
+    RATE_LIMIT_ERROR("9001","接口调用超限");
 
     private String code;
 
