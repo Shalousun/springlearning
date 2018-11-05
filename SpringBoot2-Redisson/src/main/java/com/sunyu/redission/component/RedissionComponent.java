@@ -10,6 +10,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author yu 2018/11/5.
  */
@@ -27,8 +29,9 @@ public class RedissionComponent implements InitializingBean {
      */
     public static RLock acquireLock(String lockName) {
         RLock fairLock = redisson.getLock(lockName);
-        fairLock.lock();// 手动去解锁
-        logger.info("get logger success!");
+        //unlock automatically after 2 minutes of hold
+        fairLock.lock(2, TimeUnit.MINUTES);
+        logger.info("get lock success!");
         return fairLock;
     }
 
