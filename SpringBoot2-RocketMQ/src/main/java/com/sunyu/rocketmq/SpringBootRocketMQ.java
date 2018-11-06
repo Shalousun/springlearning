@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.sunyu.rocketmq.dao")
-public class SpringBootMainApplication {
+public class SpringBootRocketMQ {
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootMainApplication.class, args);
+        SpringApplication.run(SpringBootRocketMQ.class, args);
     }
 }

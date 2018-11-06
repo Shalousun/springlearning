@@ -27,10 +27,10 @@ spring:
     useGlobalDataSourceStat: true
     filters: stat,wall,log4j2
   rocketmq:
-    name-server: 127.0.0.1:9876
+    nameServer: 192.168.237.131:9876
     producer:
-      group: my-group
       compress-msg-body-over-howmuch: 4096
+      group: my-group
       max-message-size: 4194304
       retry-another-broker-when-not-store-ok: false
       retry-times-when-send-async-failed: 0

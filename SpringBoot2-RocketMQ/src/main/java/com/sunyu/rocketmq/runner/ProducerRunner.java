@@ -1,7 +1,9 @@
 package com.sunyu.rocketmq.runner;
 
+import com.sunyu.rocketmq.model.OrderPaidEvent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 import org.apache.rocketmq.spring.starter.core.RocketMQTemplate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.messaging.support.MessageBuilder;
@@ -24,15 +26,10 @@ public class ProducerRunner implements CommandLineRunner {
     public void run(String... args) {
         rocketMQTemplate.convertAndSend("test-topic-1", "Hello, World!");
         rocketMQTemplate.send("test-topic-1", MessageBuilder.withPayload("Hello, World! I'm from spring message").build());
-        rocketMQTemplate.convertAndSend("test-topic-2", new OrderPaidEvent("T_001", new BigDecimal("88.00")));
+        OrderPaidEvent orderPaidEvent = new OrderPaidEvent();
+        orderPaidEvent.setOrderId("T_001");
+        orderPaidEvent.setPaidMoney(new BigDecimal("88.00"));
+        rocketMQTemplate.convertAndSend("test-topic-2", orderPaidEvent);
     }
 
-    @Data
-    @AllArgsConstructor
-    public class OrderPaidEvent implements Serializable {
-        private String orderId;
-
-        private BigDecimal paidMoney;
-
-    }
 }
