@@ -5,6 +5,8 @@ spring:
 ---
 spring:
   profiles : dev
+  cache:
+    type: redis
   datasource:
     name: mydb
     type: com.alibaba.druid.pool.DruidDataSource
