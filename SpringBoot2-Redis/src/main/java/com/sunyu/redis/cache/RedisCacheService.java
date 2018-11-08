@@ -71,4 +71,12 @@ public interface RedisCacheService {
      * @return
      */
     boolean hasKey(String key);
+
+    /**
+     *
+     * @param key
+     * @param delta
+     * @return
+     */
+    long increment(String key, long delta);
 }

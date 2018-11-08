@@ -45,6 +45,9 @@ public class RedisCacheServiceImpl implements RedisCacheService {
 
     @Override
     public Object get(String key) {
+        if(key == null){
+            throw new IllegalArgumentException("Cache instances require an key");
+        }
         log.debug("redis get key: {}",key);
         return redisTemplate.opsForValue().get(key);
     }
@@ -67,5 +70,10 @@ public class RedisCacheServiceImpl implements RedisCacheService {
     @Override
     public boolean hasKey(String key) {
         return redisTemplate.hasKey(key);
+    }
+
+    @Override
+    public long increment(String key, long delta) {
+        return redisTemplate.opsForValue().increment(key, 1);
     }
 }
