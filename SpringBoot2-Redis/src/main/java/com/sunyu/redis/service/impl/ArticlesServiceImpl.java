@@ -26,9 +26,6 @@ public class ArticlesServiceImpl  implements ArticlesService{
     private static Logger logger = LoggerFactory.getLogger(ArticlesService.class);
 
 	@Resource
-	private ArticlesDao articlesDao;
-
-	@Resource
 	private ArticleDaoCache articleDaoCache;
 
 	@Override
@@ -88,8 +85,7 @@ public class ArticlesServiceImpl  implements ArticlesService{
 
 	@Override
     public PageSerializable queryPage(int offset, int limit) {
-        PageHelper.offsetPage(offset,limit);
-        List<Articles> list = articlesDao.queryPage();
+        List<Articles> list = articleDaoCache.queryPage(offset,limit);
         return new PageSerializable(list);
     }
 }

@@ -1,8 +1,11 @@
 package com.sunyu.redis.dao;
 
+import com.github.pagehelper.PageHelper;
 import com.sunyu.redis.model.Articles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 
@@ -27,8 +30,8 @@ public class ArticleDaoCache {
     @Caching(
             put = {
                     @CachePut(value = "articleCache", key = "#article.articleId"),
-                    @CachePut(value = "articleCache", key = "#article.category+'_'+#article.articleId")
-            }
+            },
+            evict= { @CacheEvict(value= "allArticlesCache", allEntries= true) }
     )
     public int save(Articles article) {
         return articlesDao.save(article);
@@ -50,8 +53,12 @@ public class ArticleDaoCache {
      * @param entity
      * @return
      */
-    public int update(Articles entity) {
-        return articlesDao.update(entity);
+    @Caching(
+            put= { @CachePut(value= "articleCache", key= "#article.articleId") },
+            evict= { @CacheEvict(value= "allArticlesCache", allEntries= true) }
+    )
+    public int update(Articles article) {
+        return articlesDao.update(article);
     }
 
     /**
@@ -60,8 +67,14 @@ public class ArticleDaoCache {
      * @param id
      * @return
      */
-    public int delete(int id) {
-        return articlesDao.delete(id);
+    @Caching(
+            evict= {
+                    @CacheEvict(value= "articleCache", key= "#articleId"),
+                    @CacheEvict(value= "allArticlesCache", allEntries= true)
+            }
+    )
+    public int delete(int articleId) {
+        return articlesDao.delete(articleId);
     }
 
     /**
@@ -70,7 +83,21 @@ public class ArticleDaoCache {
      * @param id
      * @return
      */
-    public Articles queryById(int id) {
-        return articlesDao.queryById(id);
+    @Cacheable(value= "articleCache", key= "#articleId")
+    public Articles queryById(int articleId) {
+        return articlesDao.queryById(articleId);
+    }
+
+    /**
+     * 分页查询
+     * @param offset
+     * @param limit
+     * @return
+     */
+    @Cacheable(value= "allArticlesCache", unless= "#result.size() == 0")
+    public List<Articles> queryPage(int offset, int limit){
+        PageHelper.offsetPage(offset,limit);
+        List<Articles> list = articlesDao.queryPage();
+        return list;
     }
 }
