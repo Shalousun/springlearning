@@ -27,6 +27,7 @@ public class DocCreatorTest {
        ApiConfig config = new ApiConfig();
        config.setStrict(false);
        config.setOutPath("d:\\md");
+       config.setServerUrl("http://localhost:8080");
        // set java source path
        config.setSourcePaths(
                SourcePath.path().setDesc("current project").setPath("src/main/java")

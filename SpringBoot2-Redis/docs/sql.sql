@@ -64,3 +64,20 @@ INSERT INTO `t_province` VALUES ('33', '81', '香港特别行政区');
 INSERT INTO `t_province` VALUES ('34', '82', '澳门特别行政区');
 INSERT INTO `t_province` VALUES ('35', '5ib110', '99pwob');
 INSERT INTO `t_province` VALUES ('36', null, null);
+
+-- ----------------------------
+-- Table structure for t_articles
+-- ----------------------------
+CREATE TABLE IF NOT EXISTS `t_articles` (
+  `article_id` int(5) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  PRIMARY KEY (`article_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of t_articles
+-- ----------------------------
+INSERT INTO `t_articles` (`article_id`, `title`, `category`) VALUES
+	(1, 'Spring REST Security', 'Spring'),
+	(2, 'Java Concurrency', 'Java');
