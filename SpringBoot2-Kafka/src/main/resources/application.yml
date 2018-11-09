@@ -1,0 +1,21 @@
+#Spring boot application.yml
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles : dev
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: mygroup
+
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ../logs
+  error:
+    whitelabel:
+      enabled: false
