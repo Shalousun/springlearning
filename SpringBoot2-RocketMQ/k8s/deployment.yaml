@@ -73,7 +73,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: .spring.boot2..rocket.m.q.com
+  - host: spring.boot2.rocketmq.com
     http:
       #port: 80
       paths:
