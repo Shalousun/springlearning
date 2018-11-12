@@ -45,3 +45,7 @@ server:
   error:
     whitelabel:
       enabled: false
+app:
+  id: adds
+apollo:
+  meta: http://config-service-url

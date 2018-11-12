@@ -36,12 +36,12 @@
 			<if test="title!=null">title = #{title},</if>
 			<if test="category!=null">category = #{category},</if>
 		</trim>
-    	where id = #{id}
+    	where article_id = #{id}
     </update>
 
     <!--删除数据-->
 	<delete id="delete" parameterType="int">
-		delete from t_article where id = #{id}
+		delete from t_article where article_id = #{id}
 	</delete>
 
     <!--根据id返回一条记录-->
@@ -51,7 +51,7 @@
 			title,
 			category
  		from t_article
-		where id=#{id}
+		where article_id=#{id}
 	</select>
 
 	<!--分页记录-->
