@@ -15,6 +15,8 @@
     <module>SpringBoot2-Redisson</module>
     <module>SpringBoot2-RocketMQ</module>
     <module>SpringBoot2-Redis</module>
+    <module>SpringBoot2-Kafka</module>
+    <module>SpringBoot2-Apollo</module>
   </modules>
   <packaging>pom</packaging>
 
