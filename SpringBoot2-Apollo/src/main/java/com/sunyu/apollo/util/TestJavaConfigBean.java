@@ -15,7 +15,7 @@ public class TestJavaConfigBean {
     @ApolloConfig("application")
     private Config config; //inject config for namespace application
 
-    @Value("${spring:datasource:name}")//如果配置中心没有值，默认key为test的value值为test
+    @Value("${spring.datasource.name}")//如果配置中心没有值，默认key为test的value值为test
     private String name;
 
     //config change listener for namespace application
