@@ -1,0 +1,83 @@
+# Copyright 2017 ApplicationPower.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# Configuration to deploy release version of the springboot application compatible with
+# Kubernetes 1.8.
+#
+# Example usage: kubectl create -f <this_file>
+# ------------------- SpringBoot Application Deployment ------------------- #
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: SpringBoot2-Apollo-rc
+  namespace: default
+spec:
+  selector:
+      matchLabels:
+        app: SpringBoot2-Apollo
+        tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: SpringBoot2-Apollo
+        tier: backend
+    spec:
+      containers:
+        - name: SpringBoot2-Apollo
+          image: harbor-registry/test/com.sunyu.apollo/SpringBoot2-Apollo:1.0-SNAPSHOT
+          imagePullPolicy: Always
+#          resources:
+#            requests:
+#              cpu: 100m
+#              memory: 100Mi
+#            limits:
+#              cpu: 100m
+#              memory: 100Mi
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+      - name: harbor-key
+---
+# ------------------- SpringBoot Application Service ---------------------- #
+apiVersion: v1
+kind: Service
+metadata:
+ name: SpringBoot2-Apollo-svc
+ namespace: default
+spec:
+ #type: NodePort
+ ports:
+ - port: 8080
+   targetPort: 8080
+   #nodePort: 30011
+ selector:
+  app: SpringBoot2-Apollo
+  tier: backend
+---
+# ------------------- SpringBoot Application ingress ---------------------- #
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: SpringBoot2-Apollo-ingress
+  namespace: default
+spec:
+  rules:
+  - host: spring.boot2.apollo.com
+    http:
+      #port: 80
+      paths:
+      - path: /
+        backend:
+          serviceName: SpringBoot2-Apollo-svc
+          servicePort: 8080
