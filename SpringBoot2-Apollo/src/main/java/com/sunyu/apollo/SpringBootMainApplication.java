@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @SpringBootApplication
 @Configuration
-@EnableApolloConfig
+@EnableApolloConfig(value = {"application","custom"})
 @MapperScan("com.sunyu.apollo.dao")
 public class SpringBootMainApplication {
     public static void main(String[] args) {
