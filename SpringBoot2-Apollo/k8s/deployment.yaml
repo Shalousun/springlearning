@@ -19,22 +19,22 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: SpringBoot2-Apollo-rc
+  name: springboot2-apollo-rc
   namespace: default
 spec:
   selector:
       matchLabels:
-        app: SpringBoot2-Apollo
+        app: springboot2-apollo
         tier: backend
   replicas: 1
   template:
     metadata:
       labels:
-        app: SpringBoot2-Apollo
+        app: springboot2-apollo
         tier: backend
     spec:
       containers:
-        - name: SpringBoot2-Apollo
+        - name: springboot2-apollo
           image: docker-server.com/library/com.sunyu.apollo/springboot2-apollo:1.0
           imagePullPolicy: Always
 #          resources:
@@ -45,7 +45,7 @@ spec:
 #              cpu: 100m
 #              memory: 100Mi
           ports:
-            - containerPort: 8080
+            - containerPort: 8888
       imagePullSecrets:
       - name: harbor-key
 ---
@@ -53,31 +53,31 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
- name: SpringBoot2-Apollo-svc
+ name: springboot2-apollo-svc
  namespace: default
 spec:
  #type: NodePort
  ports:
- - port: 8080
-   targetPort: 8080
+ - port: 8888
+   targetPort: 8888
    #nodePort: 30011
  selector:
-  app: SpringBoot2-Apollo
+  app: springboot2-apollo
   tier: backend
 ---
 # ------------------- SpringBoot Application ingress ---------------------- #
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: SpringBoot2-Apollo-ingress
+  name: springboot2-apollo-ingress
   namespace: default
 spec:
   rules:
-  - host: springboot2.apollo.com
+  - host: test.com
     http:
       #port: 80
       paths:
       - path: /
         backend:
-          serviceName: SpringBoot2-Apollo-svc
-          servicePort: 8080
+          serviceName: springboot2-apollo-svc
+          servicePort: 8888
