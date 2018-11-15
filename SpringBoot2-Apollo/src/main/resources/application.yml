@@ -1,0 +1,16 @@
+#Spring boot application.yml
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles : dev
+server:
+  port: 8888
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ../logs
+  error:
+    whitelabel:
+      enabled: false
