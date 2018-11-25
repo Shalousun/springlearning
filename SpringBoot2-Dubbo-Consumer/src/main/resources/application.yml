@@ -1,0 +1,34 @@
+#Spring boot application.yml
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles : dev
+  application:
+    name: dubbo-consumer-demo
+
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ../logs
+  error:
+    whitelabel:
+      enabled: false
+dubbo:
+  application:
+    id: dubbo-consumer-demo
+    name: dubbo-consumer-demo
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+  registry:
+    protocol: zookeeper
+    address: localhost:2181
+    id: my-registry
+api:
+  version: 1.0.0
+
