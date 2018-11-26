@@ -34,7 +34,7 @@ then
     sed -i "s/$(echo -e '\015')/\n/g" config/application.yml
     # read yml file
     eval $(YamlParse__parse "config/application.yml" "config_")
-    SERVER_PORT=$config_server_port
+    SERVER_PORT=$config_dubbo_protocol_port
 else
     SERVER_PORT=$(sed '/server.port/!d;s/.*=//' config/application.properties | tr -d '\r')
 fi

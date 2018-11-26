@@ -23,7 +23,7 @@ fi
 
 echo -e "Stopping the $SERVER_NAME ...\c"
 for PID in $PIDS ; do
-    kill $PID > /dev/null 2>&1
+    kill -9 $PID > /dev/null 2>&1
 done
 
 COUNT=0

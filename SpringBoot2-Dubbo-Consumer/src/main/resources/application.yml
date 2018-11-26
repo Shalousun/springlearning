@@ -27,7 +27,7 @@ dubbo:
     port: 20880
   registry:
     protocol: zookeeper
-    address: localhost:2181
+    address: 192.168.237.131:2181
     id: my-registry
 api:
   version: 1.0.0
