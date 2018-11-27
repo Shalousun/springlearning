@@ -3,10 +3,12 @@ package com.sunyu.rocketmq.listener;
 import com.alibaba.fastjson.JSON;
 import com.sunyu.rocketmq.dao.OrderDao;
 import com.sunyu.rocketmq.model.Order;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.spring.starter.annotation.RocketMQTransactionListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,6 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author yu 2018/11/27.
  */
 @Component
+@Slf4j
+@RocketMQTransactionListener( txProducerGroup ="txTest")
 public class OrderTransactionListener implements TransactionListener {
 
     private AtomicInteger transactionIndex = new AtomicInteger(0);
@@ -34,13 +38,14 @@ public class OrderTransactionListener implements TransactionListener {
      */
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
+        log.info("开始执行本地事务");
         int value = transactionIndex.getAndIncrement();
         int status = value % 3;
         localTrans.put(msg.getTransactionId(), status);
         try{
             Order order = JSON.parseObject(new String(msg.getBody(), "utf-8"),Order.class);
             order.setState(Order.COMPLETED);
-            orderDao.save(order);
+            orderDao.update(order);
             return LocalTransactionState.COMMIT_MESSAGE;
         }catch (Exception e){
             e.printStackTrace();

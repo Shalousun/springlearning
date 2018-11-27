@@ -60,9 +60,10 @@ public class OrderServiceImpl implements OrderService {
 
     private void sendMessage(Order order) throws Exception{
         Message msg = new Message();
-        msg.setTopic("TransactionTest");
+        msg.setTopic("TopicTransaction");
         msg.setTags("orderTag");
         msg.setKeys(order.getOrderId());
+        log.info("order info: {}",JSON.toJSONString(order));
         msg.setBody(JSON.toJSONString(order).getBytes(RemotingHelper.DEFAULT_CHARSET));
 
         rocketMQTemplate.sendMessageInTransaction("txTest", msg, null);

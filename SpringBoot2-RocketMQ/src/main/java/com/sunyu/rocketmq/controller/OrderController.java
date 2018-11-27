@@ -27,7 +27,7 @@ public class OrderController {
      * @throws Exception
      */
     @GetMapping(value = "createOrder/{userId}")
-    public CommonResult createOrder(String userId) throws Exception{
+    public CommonResult createOrder(@PathVariable String userId) throws Exception{
         return orderService.createOrder(userId);
     }
 

@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TransactionMsgController {
 
-    @Autowired
-    private TransactionMQProducer producer;
-
-    @Autowired
-    private OrderTransactionListener orderTransactionListener;
+//    @Autowired
+//    private TransactionMQProducer producer;
+//
+//    @Autowired
+//    private OrderTransactionListener orderTransactionListener;
 
     /**
      *
@@ -35,20 +35,20 @@ public class TransactionMsgController {
     @GetMapping("testTransaction")
     public CommonResult testTransaction() throws Exception{
 
-        Message message = new Message("t_TopicTest", "Tag1", "12345", "rocketmq测试成功".getBytes());
-        producer.setTransactionListener(orderTransactionListener);
-        producer.setSendMsgTimeout(10000);
-        producer.sendMessageInTransaction(message, new SendCallback() {
-            @Override
-            public void onSuccess(SendResult sendResult) {
-                log.info("传输成功");
-                log.info(JSON.toJSONString(sendResult));
-            }
-            @Override
-            public void onException(Throwable e) {
-                log.error("传输失败", e);
-            }
-        });
+//        Message message = new Message("t_TopicTest", "Tag1", "12345", "rocketmq测试成功".getBytes());
+//        producer.setTransactionListener(orderTransactionListener);
+//        producer.setSendMsgTimeout(10000);
+//        producer.sendMessageInTransaction(message, new SendCallback() {
+//            @Override
+//            public void onSuccess(SendResult sendResult) {
+//                log.info("传输成功");
+//                log.info(JSON.toJSONString(sendResult));
+//            }
+//            @Override
+//            public void onException(Throwable e) {
+//                log.error("传输失败", e);
+//            }
+//        });
         return ResultUtil.success("");
 
     }
