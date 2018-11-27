@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sunyu.rocketmq.dao.ProvinceDao">
+<mapper namespace="com.test.rocketmq.consumer.dao.AccountDao">
 
     <!--保存数据selectKey若启用则添加成功后id会自动返回-->
-	<insert id="save" parameterType="Province">
+	<insert id="save" parameterType="Account">
 	<!-- <selectKey resultType="int" keyProperty="id" order="AFTER">-->
 		<!--	SELECT LAST_INSERT_ID()-->
 	<!--	 </selectKey>-->
-		insert into t_province(
-			province_id,
-			province_name
+		insert into t_account(
+			amount,
+			user_id,
+			update_time
 		) values (
-			#{provinceId},
-			#{provinceName}
+			#{amount},
+			#{userId},
+			#{updateTime}
 		)
 	</insert>
 	<!--批量插入数据-->
 	<insert id="batchSave" parameterType="java.util.List">
-        insert into t_province(
-			province_id,
-			province_name
+        insert into t_account(
+			amount,
+			user_id,
+			update_time
 		) values
         <foreach collection="list" item="item" index="index" separator=",">
             (
-			#{item.provinceId},
-			#{item.provinceName}
+			#{item.amount},
+			#{item.userId},
+			#{item.updateTime}
             )
         </foreach>
 	</insert>
 
     <!--更新数据-->
-    <update id="update" parameterType="Province">
-    	update t_province
+    <update id="update" parameterType="Account">
+    	update t_account
 		<trim prefix="set" suffixOverrides=",">
-			<if test="provinceId!=null">province_id = #{provinceId},</if>
-			<if test="provinceName!=null">province_name = #{provinceName},</if>
+			<if test="amount!=null">amount = #{amount},</if>
+			<if test="userId!=null">user_id = #{userId},</if>
+			<if test="updateTime!=null">update_time = #{updateTime},</if>
 		</trim>
     	where id = #{id}
     </update>
 
     <!--删除数据-->
 	<delete id="delete" parameterType="int">
-		delete from t_province where id = #{id}
+		delete from t_account where id = #{id}
 	</delete>
 
     <!--根据id返回一条记录-->
-	<select id="queryById" parameterType="int" resultType="Province">
+	<select id="queryById" parameterType="int" resultType="Account">
 	    select 
 			id,
-			province_id,
-			province_name
- 		from t_province
-		where id=#{id}
+			amount,
+			user_id,
+			update_time
+ 		from t_account
+		where id = #{id}
 	</select>
 
 	<!--分页记录-->
-    <select id="queryPage" resultType="Province">
+    <select id="queryPage" resultType="Account">
         select 
 			id,
-			province_id,
-			province_name
- 		from t_province
+			amount,
+			user_id,
+			update_time
+ 		from t_account
     </select>
 </mapper>

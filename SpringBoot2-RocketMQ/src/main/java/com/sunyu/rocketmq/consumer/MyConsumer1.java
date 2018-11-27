@@ -6,11 +6,12 @@ import org.apache.rocketmq.spring.starter.core.RocketMQListener;
 import org.springframework.stereotype.Service;
 
 /**
+ *  test-topic-1 的消费测试已经移动到consumer模块
  * @author yu 2018/11/6.
  */
 @Slf4j
-@Service
-@RocketMQMessageListener(topic = "test-topic-1", consumerGroup = "my-consumer_test-topic-1")
+//@Service
+//@RocketMQMessageListener(topic = "test-topic-1", consumerGroup = "my-consumer_test-topic-1")
 public class MyConsumer1 implements RocketMQListener<String> {
 
     @Override

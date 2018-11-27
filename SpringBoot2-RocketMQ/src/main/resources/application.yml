@@ -7,7 +7,7 @@ spring:
     name: mydb
     type: com.alibaba.druid.pool.DruidDataSource
     #jdbc:mysql://localhost:3306/cookbook?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/project_boot?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/mq?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver

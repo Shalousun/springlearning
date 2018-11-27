@@ -1,4 +1,4 @@
-package com.sunyu.rocketmq.service.impl;
+package com.test.rocketmq.consumer.service.impl;
 
 import java.util.List;
 import javax.annotation.Resource;
@@ -10,32 +10,32 @@ import org.slf4j.LoggerFactory;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageSerializable;
 import com.power.common.model.CommonResult;
-import com.sunyu.rocketmq.model.Province;
-import com.sunyu.rocketmq.dao.ProvinceDao;
-import com.sunyu.rocketmq.service.ProvinceService;
+import com.test.rocketmq.consumer.model.Account;
+import com.test.rocketmq.consumer.dao.AccountDao;
+import com.test.rocketmq.consumer.service.AccountService;
 
 /**
- * @author yu on 2018/11/05.
+ * @author yu on 2018/11/27.
  */
-@Service("provinceService")
-public class ProvinceServiceImpl  implements ProvinceService{
+@Service("accountService")
+public class AccountServiceImpl  implements AccountService{
 
     /**
      * 日志
      */
-    private static Logger logger = LoggerFactory.getLogger(ProvinceService.class);
+    private static Logger logger = LoggerFactory.getLogger(AccountService.class);
 
 	@Resource
-	private ProvinceDao provinceDao;
+	private AccountDao accountDao;
 
 	@Override
-	public CommonResult save(Province entity) {
+	public CommonResult save(Account entity) {
 		CommonResult result = new CommonResult();
         try {
-        	provinceDao.save(entity);
+        	accountDao.save(entity);
         	result.setSuccess(true);
         } catch (Exception e) {
-        	logger.error("ProvinceService添加数据异常：",e);
+        	logger.error("AccountService添加数据异常：",e);
         	//抛出异常方便事务管理，并且会被RestExceptionHandler自动处理
         	throw new RuntimeException("添加数据失败");
         }
@@ -43,13 +43,13 @@ public class ProvinceServiceImpl  implements ProvinceService{
 	}
 
 	@Override
-	public CommonResult update(Province entity) {
+	public CommonResult update(Account entity) {
 		CommonResult result = new CommonResult();
         try {
-            provinceDao.update(entity);
+            accountDao.update(entity);
             result.setSuccess(true);
         } catch (Exception e) {
-            logger.error("ProvinceService修改数据异常：",e);
+            logger.error("AccountService修改数据异常：",e);
             throw new RuntimeException("修改数据失败");
         }
         return result;
@@ -59,10 +59,10 @@ public class ProvinceServiceImpl  implements ProvinceService{
 	public CommonResult delete(int id) {
 		CommonResult result = new CommonResult();
         try {
-            provinceDao.delete(id);
+            accountDao.delete(id);
             result.setSuccess(true);
         } catch (Exception e) {
-            logger.error("ProvinceService删除数据异常：",e);
+            logger.error("AccountService删除数据异常：",e);
             throw new RuntimeException("删除数据异常");
         }
         return result;
@@ -71,14 +71,14 @@ public class ProvinceServiceImpl  implements ProvinceService{
 	@Override
 	public CommonResult queryById(int id) {
 	    CommonResult result = new CommonResult();
-	    Province entity = provinceDao.queryById(id);
+	    Account entity = accountDao.queryById(id);
 	    if (null != entity) {
 	        //成功返回数据
         	result.setData(entity);
         	result.setSuccess(true);
         } else {
         	result.setMessage("没有找到匹配数据");
-        	logger.info("ProvinceService未查询到数据，编号：{}",id);
+        	logger.info("AccountService未查询到数据，编号：{}",id);
         }
         return result;
 	}
@@ -86,7 +86,7 @@ public class ProvinceServiceImpl  implements ProvinceService{
 	@Override
     public PageSerializable queryPage(int offset, int limit) {
         PageHelper.offsetPage(offset,limit);
-        List<Province> list = provinceDao.queryPage();
+        List<Account> list = accountDao.queryPage();
         return new PageSerializable(list);
     }
 }

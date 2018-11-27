@@ -1,29 +1,29 @@
-package com.sunyu.rocketmq.service;
+package com.test.rocketmq.consumer.service;
 
 
 import com.github.pagehelper.PageSerializable;
 import com.power.common.model.CommonResult;
-import com.sunyu.rocketmq.model.Province;
+import com.test.rocketmq.consumer.model.Account;
 
 /**
  *
- * @author yu on 2018/11/05.
+ * @author yu on 2018/11/27.
  */
-public interface ProvinceService {
+public interface AccountService {
 
 	/**
 	 * 保存数据
 	 * @param entity
 	 * @return
      */
-	CommonResult save(Province entity);
+	CommonResult save(Account entity);
 
 	/**
 	 * 修改数据
 	 * @param entity
 	 * @return
      */
-	CommonResult update(Province entity);
+	CommonResult update(Account entity);
 
 	/**
 	 * 删除数据
