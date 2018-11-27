@@ -1,4 +1,4 @@
-package com.sunyu.rocketmq.controller;
+package com.test.rocketmq.consumer.controller;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -11,10 +11,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * controller restful接口单元测试
- * @author yu on 2018/11/05.
+ * @author yu on 2018/11/27.
  *
  */
-public class ProvinceControllerTest extends ControllerBaseTest {
+public class JournalControllerTest extends ControllerBaseTest {
 
 	/**
 	 * 测试controller add接口
@@ -22,11 +22,13 @@ public class ProvinceControllerTest extends ControllerBaseTest {
      */
 	@Test
 	public void testAdd() throws Exception {
-		MvcResult result = mockMvc.perform(post("/province/add")
+		MvcResult result = mockMvc.perform(post("/journal/add")
  			.contentType(MediaType.APPLICATION_JSON)
-            .param("id","859")
-            .param("provinceId","g8c32x")
-            .param("provinceName","oay4kh")
+            .param("id","924")
+            .param("orderId","zw2lzz")
+            .param("userId","a0n8t6")
+            .param("amount","81.72")
+            .param("updateTime","2018-11-27 15:13:57")
  		).andExpect(status().isOk()).andDo(print()).andReturn();
 		System.out.println("result:"+result.getResponse().getContentAsString());
 	}
@@ -37,7 +39,7 @@ public class ProvinceControllerTest extends ControllerBaseTest {
      */
 	@Test
 	public void testQueryById() throws Exception {
-		MvcResult result = mockMvc.perform(get("/province/query/{id}", 1)
+		MvcResult result = mockMvc.perform(get("/journal/query/{id}", 1)
  			.contentType(MediaType.APPLICATION_JSON)
  			.param("param1", "pm1")
  		).andExpect(status().isOk()).andDo(print()).andReturn();
@@ -50,12 +52,14 @@ public class ProvinceControllerTest extends ControllerBaseTest {
      */
 	@Test
 	public void testUpdate() throws Exception {
-        MvcResult result = mockMvc.perform(post("/province/update")
+        MvcResult result = mockMvc.perform(post("/journal/update")
          	.contentType(MediaType.APPLICATION_JSON)
          	
-            .param("id","859")
-            .param("provinceId","g8c32x")
-            .param("provinceName","oay4kh")
+            .param("id","924")
+            .param("orderId","zw2lzz")
+            .param("userId","a0n8t6")
+            .param("amount","81.72")
+            .param("updateTime","2018-11-27 15:13:57")
         ).andExpect(status().isOk()).andDo(print()).andReturn();
         System.out.println("result:"+result.getResponse().getContentAsString());
 	}
@@ -66,7 +70,7 @@ public class ProvinceControllerTest extends ControllerBaseTest {
      */
 	@Test
 	public void testDelete() throws Exception {
-		MvcResult result = mockMvc.perform(get("/province/delete/{id}", 1)
+		MvcResult result = mockMvc.perform(get("/journal/delete/{id}", 1)
  			.contentType(MediaType.APPLICATION_JSON)
  			.param("param1", "pm1")
  		).andExpect(status().isOk()).andDo(print()).andReturn();
@@ -79,7 +83,7 @@ public class ProvinceControllerTest extends ControllerBaseTest {
      */
     @Test
     public void testPage() throws Exception {
-        MvcResult result = mockMvc.perform(get("/province/page/{offset}/{limit}",1,10)
+        MvcResult result = mockMvc.perform(get("/journal/page/{offset}/{limit}",1,10)
             .contentType(MediaType.APPLICATION_JSON)
             .param("param1", "pm1")
         ).andExpect(status().isOk()).andDo(print()).andReturn();
