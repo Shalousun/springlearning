@@ -4,7 +4,7 @@ package com.sunyu.apollo.enums;
  * Error code enum
  * @author yu on 2018/11/12.
  */
-public enum ErrorCodeEnum {
+public enum ErrorCode {
 
     SUCCESS("0000", "success"),
 
@@ -18,7 +18,7 @@ public enum ErrorCodeEnum {
 
     private String desc;
 
-    ErrorCodeEnum(String code, String desc) {
+    ErrorCode(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }

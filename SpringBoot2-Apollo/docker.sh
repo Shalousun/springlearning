@@ -9,7 +9,7 @@ source /etc/profile
 
 CUR_PATH=$(cd `dirname $0`;pwd)
 
-DOCKER_REGISTRY=192.168.237.131
+DOCKER_REGISTRY=docker-server.com
 
 HARBOR_PROJECT=library
 
@@ -148,13 +148,13 @@ echo "INFO: use maven build docker image"
 mvn clean package docker:build -DskipTests
 
 # running container
-docker run -dp $SERVER_PORT:$SERVER_PORT -t ${MYIMAGE}
+#docker run -dp $SERVER_PORT:$SERVER_PORT -t ${MYIMAGE}
 echo "INFO: export port is $SERVER_PORT"
 
 
 # ==========================push image to registry========================
 # uncomment if you need push
-# docker login ${DOCKER_REGISTRY} -u $HARBOR_USER -p $HARBOR_PASSWORD
+docker login ${DOCKER_REGISTRY} -u $HARBOR_USER -p $HARBOR_PASSWORD
 echo "INFO：Starting push image of ${MYIMAGE} to docker registry ${DOCKER_REGISTRY}"
-# docker tag ${MYIMAGE}  ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}
-# docker push ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}
+docker tag ${MYIMAGE}  ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}
+docker push ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}

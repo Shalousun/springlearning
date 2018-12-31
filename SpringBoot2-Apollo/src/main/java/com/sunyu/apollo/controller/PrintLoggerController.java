@@ -1,7 +1,6 @@
 package com.sunyu.apollo.controller;
 
 import com.power.common.model.CommonResult;
-import com.sunyu.apollo.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +18,6 @@ public class PrintLoggerController {
         log.error("我是error级别日志");
         log.warn("我是warn级别日志");
         log.debug("我是debug级别日志");
-        return ResultUtil.success("");
+        return CommonResult.ok();
     }
 }
