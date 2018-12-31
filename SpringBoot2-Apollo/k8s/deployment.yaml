@@ -62,10 +62,23 @@ spec:
 #              memory: 100Mi
           env:
               # set apollo env
-              - name: ENV
-                value: dev
+#              - name: ENV
+#                value: dev
+#              # from configmap
+#              - name: xx-ENV
+#                valueFrom:
+#                  configMapKeyRef:
+#                    name: configmap-meta-name
+#                    key: data-key
+          volumeMounts:
+          - name: apollo-env
+            mountPath: /opt/settings
           ports:
             - containerPort: 8888
+      volumes:
+      - name: apollo-env
+        configMap:
+          name: apollo-prop-env
       imagePullSecrets:
       - name: harbor-key
 ---

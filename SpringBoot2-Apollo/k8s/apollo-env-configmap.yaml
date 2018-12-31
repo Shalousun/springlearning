@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apollo-env
+  namespace: default
+data:
+  ENV: dev
