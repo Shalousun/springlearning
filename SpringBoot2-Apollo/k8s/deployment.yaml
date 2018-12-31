@@ -15,40 +15,6 @@
 # Kubernetes 1.8.
 #
 # Example usage: kubectl create -f <this_file>
-# ------------------- SpringBoot Application Deployment ------------------- #
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: springboot2-apollo-rc
-  namespace: default
-spec:
-  selector:
-      matchLabels:
-        app: springboot2-apollo
-        tier: backend
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: springboot2-apollo
-        tier: backend
-    spec:
-      containers:
-        - name: springboot2-apollo
-          image: docker-server.com/library/com.sunyu.apollo/springboot2-apollo:1.0
-          imagePullPolicy: Always
-#          resources:
-#            requests:
-#              cpu: 100m
-#              memory: 100Mi
-#            limits:
-#              cpu: 100m
-#              memory: 100Mi
-          ports:
-            - containerPort: 8888
-      imagePullSecrets:
-      - name: harbor-key
----
 # ------------------- SpringBoot Application Service ---------------------- #
 apiVersion: v1
 kind: Service
@@ -65,6 +31,44 @@ spec:
   app: springboot2-apollo
   tier: backend
 ---
+# ------------------- SpringBoot Application Deployment ------------------- #
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: springboot2-apollo-deployment
+  namespace: default
+spec:
+  selector:
+      matchLabels:
+        app: springboot2-apollo
+        tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: springboot2-apollo
+        tier: backend
+    spec:
+      containers:
+        - name: springboot2-apollo
+          image: docker-server.com/library/com.sunyu.apollo/springboot2-apollo:1.1
+          imagePullPolicy: Always
+#          resources:
+#            requests:
+#              cpu: 100m
+#              memory: 100Mi
+#            limits:
+#              cpu: 100m
+#              memory: 100Mi
+          env:
+              # set apollo env
+              - name: ENV
+                value: dev
+          ports:
+            - containerPort: 8888
+      imagePullSecrets:
+      - name: harbor-key
+---
 # ------------------- SpringBoot Application ingress ---------------------- #
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -73,7 +77,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: test.com
+  - host: spring.boot2.apollo.com
     http:
       #port: 80
       paths:
