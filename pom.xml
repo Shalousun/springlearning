@@ -22,6 +22,7 @@
         <module>SpringBoot2-Dubbo-Consumer</module>
         <module>SpringBoot2-Dubbo-Api</module>
         <module>SpringBoot2-Prometheus</module>
+        <module>SpringBoot2-k8s</module>
     </modules>
     <packaging>pom</packaging>
 
