@@ -19,4 +19,6 @@ kubectl create configmap apollo-meta --from-literal=APOLLO_META="http://192.168.
 kubectl get configmap apollo-env -o yaml
 kubectl get configmap apollo-meta -o yaml
 ```
+官方推荐采用application.properties来设置，尤其是dubbo的应用，该配置并不能配置多环境env，因此在k8s上部署时，如果部署环境变了
+建议直接APOLLO_META
 

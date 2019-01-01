@@ -65,7 +65,7 @@ spec:
 #              - name: ENV
 #                value: dev
 #              # from configmap
-#              - name: xx-ENV
+#              - name: APOLLO_META
 #                valueFrom:
 #                  configMapKeyRef:
 #                    name: configmap-meta-name
