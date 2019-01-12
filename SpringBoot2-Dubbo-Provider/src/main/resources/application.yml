@@ -9,33 +9,10 @@ spring:
     name: dubbo-provider-demo
 server:
   port: 9090
-management:
-  endpoint:
-    dubbo-configs:
-      enabled: true
-    dubbo:
-      enabled: true
-    dubbo-services:
-      enabled: true
-    dubbo-properties:
-      enabled: true
-    dubbo-shutdown:
-      enabled: true
-    dubbo-references:
-      enabled: true
-  health:
-    dubbo:
-      status:
-        defaults: memory
-        extras: load,threadpool
-  endpoints:
-    web:
-      exposure:
-        include: '*'
 dubbo:
   registry:
     protocol: zookeeper
-    address: localhost:2181
+    address:  192.168.237.1:2181
     id: my-registry
   protocol:
     port: 20880
@@ -45,8 +22,6 @@ dubbo:
   application:
     name: dubbo-provider-demo
     id: dubbo-provider-demo
-    qos-enable: true
-    qos-port: 22222
   scan:
     basePackages: com.test.dubbo.service
 api:
