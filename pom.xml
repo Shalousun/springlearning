@@ -23,6 +23,7 @@
         <module>SpringBoot2-Dubbo-Api</module>
         <module>SpringBoot2-Prometheus</module>
         <module>SpringBoot2-k8s</module>
+        <module>SpringBoot2-Dubbo-Provider2</module>
     </modules>
     <packaging>pom</packaging>
 

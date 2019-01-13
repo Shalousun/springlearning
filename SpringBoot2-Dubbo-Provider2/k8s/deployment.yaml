@@ -19,39 +19,39 @@
 apiVersion: v1
 kind: Service
 metadata:
- name: springboot2-dubbo-provider-svc2
+ name: springboot2-dubbo-provider2-svc
  namespace: default
 spec:
  type: NodePort
  ports:
- - port: 8080
-   targetPort: 8080
-   nodePort: 30011
+ - port: 30012
+   targetPort: 30012
+   nodePort: 30012
  selector:
-  app: springboot2-dubbo-provider
+  app: springboot2-dubbo-provider2
   tier: backend
 ---
 # ------------------- SpringBoot Application Deployment ------------------- #
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: springboot2-dubbo-provider-deployment
+  name: springboot2-dubbo-provider2-deployment
   namespace: default
 spec:
   selector:
       matchLabels:
-        app: springboot2-dubbo-provider
+        app: springboot2-dubbo-provider2
         tier: backend
   replicas: 1
   template:
     metadata:
       labels:
-        app: springboot2-dubbo-provider
+        app: springboot2-dubbo-provider2
         tier: backend
     spec:
       containers:
-        - name: springboot2-dubbo-provider
-          image: docker-server.com/library/com.test.dubbo/springboot2-dubbo-provider:1.0
+        - name: springboot2-dubbo-provider2
+          image: docker-server.com/library/com.test.dubbo/springboot2-dubbo-provider2:1.0
           imagePullPolicy: Always
 #          resources:
 #            requests:
@@ -64,7 +64,7 @@ spec:
               - name: DUBBO_IP_TO_REGISTRY
                 value: 192.168.237.130
           ports:
-            - containerPort: 30011
+            - containerPort: 30012
       imagePullSecrets:
       - name: harbor-key
 ---
@@ -72,15 +72,15 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: springboot2-dubbo-provider-ingress
+  name: springboot2-dubbo-provider2-ingress
   namespace: default
 spec:
   rules:
-  - host: dubbo.provider.com
+  - host: dubbo.provider2.com
     http:
       #port: 80
       paths:
       - path: /
         backend:
-          serviceName: springboot2-dubbo-provider-svc
+          serviceName: springboot2-dubbo-provider2-svc
           servicePort: 8080

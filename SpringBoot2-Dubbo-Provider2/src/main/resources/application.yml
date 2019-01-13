@@ -6,7 +6,7 @@ spring:
 spring:
   profiles: dev
   application:
-    name: dubbo-provider-demo
+    name: dubbo-provider-demo2
 server:
   port: 9090
 dubbo:
@@ -15,7 +15,7 @@ dubbo:
     address:  192.168.237.1:2181
     id: my-registry
   protocol:
-    port: 30011
+    port: 30012
     name: dubbo
     id: dubbo
     status: server
