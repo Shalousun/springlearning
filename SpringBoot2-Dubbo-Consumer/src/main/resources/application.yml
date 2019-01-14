@@ -21,6 +21,8 @@ dubbo:
   application:
     id: dubbo-consumer-demo
     name: dubbo-consumer-demo
+    qos-enable: false
+    qos-port: 2222
   protocol:
     id: dubbo
     name: dubbo
