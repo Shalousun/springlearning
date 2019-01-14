@@ -15,13 +15,16 @@ dubbo:
     address:  192.168.237.1:2181
     id: my-registry
   protocol:
-    port: 30011
+    port: 80
     name: dubbo
     id: dubbo
     status: server
+    host: dubbo.provider.com
   application:
     name: dubbo-provider-demo
     id: dubbo-provider-demo
+    qos-enable: false
+    qos-port: 2222
   scan:
     basePackages: com.test.dubbo.service
 api:
