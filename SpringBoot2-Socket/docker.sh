@@ -9,9 +9,9 @@ source /etc/profile
 
 CUR_PATH=$(cd `dirname $0`;pwd)
 
-DOCKER_REGISTRY=192.168.248.128
+DOCKER_REGISTRY=192.168.85.61
 
-HARBOR_PROJECT=library
+HARBOR_PROJECT=develop
 
 HARBOR_PASSWORD=Harbor12345
 
@@ -62,42 +62,18 @@ ARTIFACT_ID="SpringBoot2-Socket"
 # ======================FIND PROJECT NAME================================
 PROJECT_NAME="springboot2-socket"
 # ======================Dynamically process project config===============
-if [ "$(xmllint 2>&1 | grep xpath | wc -l)" = "1" ]
-then
-    echo "INFO: xmllint has installed,we will use it to process pom.xml faster."
-    APP_VERSION_TEMP=$(sed < $POM '2 s/xmlns=".*"//g' | xmllint --xpath '/project/version/text()' - 2>/dev/null)
-    if [ -n "$APP_VERSION_TEMP" ]; then
-        APP_VERSION=$APP_VERSION_TEMP
-    fi
 
-    GROUP_TEMP=$(sed < $POM '2 s/xmlns=".*"//g' | xmllint --xpath '/project/groupId/text()' - 2>/dev/null)
-    if [ -n "$GROUP_TEMP" ]; then
-        GROUP=$GROUP_TEMP
-    fi
-
-    ARTIFACT_ID_TEMP=$(sed < $POM '2 s/xmlns=".*"//g' | xmllint --xpath '/project/artifactId/text()' - 2>/dev/null)
-    if [ -n "$ARTIFACT_ID_TEMP" ]; then
-        ARTIFACT_ID=$ARTIFACT_ID_TEMP
-    fi
-
-    FINAL_NAME=$(sed < $POM '2 s/xmlns=".*"//g' | xmllint --xpath '/project/build/finalName/text()' - 2>/dev/null)
-    if [ -n "$FINAL_NAME" ]; then
-        PROJECT_NAME=$FINAL_NAME
-    else
-        PROJECT_NAME=$ARTIFACT_ID-$APP_VERSION
-    fi
+echo "INFO: Use maven process pom.xml,The process is slower, please wait patiently !"
+APP_VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -e '^[^\[]')
+GROUP=$(mvn help:evaluate -Dexpression=project.groupId | grep -e '^[^\[]')
+ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId | grep -e '^[^\[]')
+FINAL_NAME=$(mvn help:evaluate -Dexpression=project.build.finalName | grep -e '^[^\[]')
+if [ -n "$FINAL_NAME" ]; then
+    PROJECT_NAME=$FINAL_NAME
 else
-    echo "INFO: Use maven process pom.xml,The process is slower, please wait patiently !"
-    APP_VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -e '^[^\[]')
-    GROUP=$(mvn help:evaluate -Dexpression=project.groupId | grep -e '^[^\[]')
-    ARTIFACT_ID=$(mvn help:evaluate -Dexpression=project.artifactId | grep -e '^[^\[]')
-    FINAL_NAME=$(mvn help:evaluate -Dexpression=project.build.finalName | grep -e '^[^\[]')
-    if [ -n "$FINAL_NAME" ]; then
-        PROJECT_NAME=$FINAL_NAME
-    else
-        PROJECT_NAME=$ARTIFACT_ID-$APP_VERSION
-    fi
+    PROJECT_NAME=$ARTIFACT_ID-$APP_VERSION
 fi
+
 # ====================define IMAGE=======================================
 # auto set images name
 #========================================================================
@@ -148,13 +124,13 @@ echo "INFO: use maven build docker image"
 mvn clean package docker:build -DskipTests
 
 # running container
-docker run -dp $SERVER_PORT:$SERVER_PORT -t ${MYIMAGE}
+# docker run -dp $SERVER_PORT:$SERVER_PORT -t ${MYIMAGE}
 echo "INFO: export port is $SERVER_PORT"
 
 
 # ==========================push image to registry========================
 # uncomment if you need push
-# docker login ${DOCKER_REGISTRY} -u $HARBOR_USER -p $HARBOR_PASSWORD
+docker login ${DOCKER_REGISTRY} -u $HARBOR_USER -p $HARBOR_PASSWORD
 echo "INFO：Starting push image of ${MYIMAGE} to docker registry ${DOCKER_REGISTRY}"
-# docker tag ${MYIMAGE}  ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}
-# docker push ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}
+docker tag ${MYIMAGE}  ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}
+docker push ${DOCKER_REGISTRY}/$HARBOR_PROJECT/${MYIMAGE}

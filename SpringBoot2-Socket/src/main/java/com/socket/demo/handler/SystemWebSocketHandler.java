@@ -1,10 +1,10 @@
 package com.socket.demo.handler;
 
+import com.power.common.util.IpUtil;
 import com.socket.demo.constants.GlobConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.*;
-import utils.ServerUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +29,7 @@ public class SystemWebSocketHandler implements WebSocketHandler {
         if (userName != null) {
             StringBuilder message = new StringBuilder();
             message.append("Hi ").append(userName).append(",you are now connected to the server[")
-                    .append(ServerUtils.getServerIp()).append("]");
+                    .append(IpUtil.getServerIp()).append("]");
             session.sendMessage(new TextMessage(message.toString()));
         }
     }
@@ -44,7 +44,7 @@ public class SystemWebSocketHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession session, WebSocketMessage message) throws Exception {
         int a = 0;
         //System.out.println("Message received: " + message.getPayload()+a);
-        sendMessageToUsers(new TextMessage(ServerUtils.getServerIp()+":"+message.getPayload().toString()));
+        sendMessageToUsers(new TextMessage(IpUtil.getServerIp()+":"+message.getPayload().toString()));
     }
 
     @Override

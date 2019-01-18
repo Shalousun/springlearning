@@ -82,7 +82,7 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: spring.boot2.socket.com
+  - host: test.socket.com
     http:
       #port: 80
       paths:
