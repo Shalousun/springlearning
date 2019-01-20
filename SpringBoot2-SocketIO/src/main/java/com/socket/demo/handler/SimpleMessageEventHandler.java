@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author yu 2019/1/20.
@@ -24,6 +25,8 @@ public class SimpleMessageEventHandler {
 
 
     static ArrayList<UUID> listClient = new ArrayList<>();
+
+    public static ConcurrentHashMap<String,SocketIOClient> webSocketMap = new ConcurrentHashMap<String, SocketIOClient>();
     static final int limitSeconds = 60;
 
 
@@ -32,7 +35,9 @@ public class SimpleMessageEventHandler {
 
     @OnConnect
     public void onConnect(SocketIOClient client) {
+        UUID sessionId = client.getSessionId();
         listClient.add(client.getSessionId());
+        webSocketMap.put(sessionId.toString(),client);
         log.info("客户端:{} 已连接", client.getSessionId());
     }
 
