@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        #messages {
+            text-align: left;
+            width: 50%;
+            padding: 1em;
+            border: 1px solid black;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Sample WebSocket Client</title>
+    <script src="https://cdn.staticfile.org/socket.io/2.2.0/socket.io.js"></script>
+</head>
+<body>
+<div class="container">
+    <div id="messages" class="messages"></div>
+    <div class="input-fields">
+        <p>Type a message and hit send:</p>
+        <input id="message"/>
+        <button id="send">Send</button>
+    </div>
+</div>
+</body>
+<script>
+    const messageWindow = document.getElementById("messages");
+
+    const sendButton = document.getElementById("send");
+    const messageInput = document.getElementById("message");
+
+    var socket = io('http://localhost:9092');  //本地windows测试环境
+    socket.on('connect', function () {
+        console.log('socket连接成功');
+    });
+
+    socket.on('disconnect', function () {
+        console.log('socket连接失败');
+    });
+
+    socket.on('messageevent', function (message) {
+        addMessageToWindow("Received Message: " + message);
+        //....收到消息后具体操作
+    });
+
+    sendButton.onclick = function (event) {
+        sendMessage(messageInput.value);
+        messageInput.value = "";
+    };
+
+
+    function sendMessage(message) {
+        var jsonObject = {
+            msgContent: message
+        };
+        socket.emit('messageevent', jsonObject);
+        addMessageToWindow("Sent Message: " + message);
+    }
+
+    function addMessageToWindow(message) {
+        messageWindow.innerHTML += `<div>${message}</div>`
+    }
+
+</script>
+</html>
