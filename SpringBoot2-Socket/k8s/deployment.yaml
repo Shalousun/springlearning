@@ -21,7 +21,11 @@ kind: Service
 metadata:
  name: springboot2-socket-svc
  namespace: default
+ annotations:
+   traefik.backend.loadbalancer.stickiness: "true"
+   traefik.backend.loadbalancer.stickiness.cookieName: "socket"
 spec:
+ #sessionAffinity: "ClientIP"
  #type: NodePort
  ports:
  - port: 8080
