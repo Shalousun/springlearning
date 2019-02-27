@@ -6,9 +6,17 @@ spring:
 spring:
   profiles : dev
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 172.31.205.22:9092
     consumer:
       group-id: mygroup
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      max-poll-records: 100
+    producer:
+      retries: 1
+      batch-size: 16384
+      buffer-memory: 33554432
 
 server:
   port: 8080

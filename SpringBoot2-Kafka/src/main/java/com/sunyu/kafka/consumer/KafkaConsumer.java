@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "mytopic")
+    @KafkaListener(topics = "k8s-test")
     public void listen(ConsumerRecord<String,String> record) {
        consumer(record);
     }

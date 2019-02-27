@@ -6,6 +6,8 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
@@ -17,7 +19,8 @@ import java.util.Map;
 /**
  * @author yu 2018/11/10.
  */
-@Component
+@EnableKafka
+@Configuration
 public class KafkaConfiguration {
 
     @Value("${spring.kafka.bootstrap-servers}")
@@ -26,24 +29,42 @@ public class KafkaConfiguration {
     @Value("${spring.kafka.consumer.enable-auto-commit}")
     private Boolean autoCommit;
 
+    /**
+     *
+     */
     @Value("${spring.kafka.consumer.auto-commit-interval}")
     private Integer autoCommitInterval;
 
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 
+    /**
+     * 每一批拉取的数量
+     */
     @Value("${spring.kafka.consumer.max-poll-records}")
     private Integer maxPollRecords;
 
+    /**
+     * 最早未被消费的offset
+     */
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
 
+    /**
+     * 生产者重试
+     */
     @Value("${spring.kafka.producer.retries}")
     private Integer retries;
 
+    /**
+     * 批量发送的消息数量
+     */
     @Value("${spring.kafka.producer.batch-size}")
     private Integer batchSize;
 
+    /**
+     *  批处理缓冲区
+     */
     @Value("${spring.kafka.producer.buffer-memory}")
     private Integer bufferMemory;
 
@@ -97,20 +118,11 @@ public class KafkaConfiguration {
         return props;
     }
 
-    /**
-     * 消费者工厂
-     *
-     * @return
-     */
-    @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
-    }
 
     @Bean
     public KafkaListenerContainerFactory<?> batchFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(consumerConfigs()));
         //并发数设置分区数一致
         factory.setConcurrency(4);
         factory.setBatchListener(true);
