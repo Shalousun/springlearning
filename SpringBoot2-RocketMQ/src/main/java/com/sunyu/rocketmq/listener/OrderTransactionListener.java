@@ -8,7 +8,8 @@ import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.spring.starter.annotation.RocketMQTransactionListener;
+
+import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

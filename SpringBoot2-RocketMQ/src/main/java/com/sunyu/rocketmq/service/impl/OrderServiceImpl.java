@@ -10,9 +10,12 @@ import com.sunyu.rocketmq.model.Order;
 import com.sunyu.rocketmq.service.OrderService;
 import com.sunyu.rocketmq.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.Message;
+
 import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.apache.rocketmq.spring.starter.core.RocketMQTemplate;
+
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,14 +61,9 @@ public class OrderServiceImpl implements OrderService {
         return new PageSerializable(list);
     }
 
-    private void sendMessage(Order order) throws Exception{
-        Message msg = new Message();
-        msg.setTopic("TopicTransaction");
-        msg.setTags("orderTag");
-        msg.setKeys(order.getOrderId());
-        log.info("order info: {}",JSON.toJSONString(order));
-        msg.setBody(JSON.toJSONString(order).getBytes(RemotingHelper.DEFAULT_CHARSET));
+    private void sendMessage(Order order) throws Exception {
 
-        rocketMQTemplate.sendMessageInTransaction("txTest", msg, null);
+        Message msg = MessageBuilder.withPayload(JSON.toJSONString(order).getBytes(RemotingHelper.DEFAULT_CHARSET)).build();
+        rocketMQTemplate.sendMessageInTransaction("test", "test-topic", msg, null);
     }
 }
