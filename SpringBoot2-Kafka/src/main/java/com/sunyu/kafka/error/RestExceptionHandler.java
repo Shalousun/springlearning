@@ -2,7 +2,6 @@ package com.sunyu.kafka.error;
 
 import com.power.common.model.CommonResult;
 import com.sunyu.kafka.enums.ErrorCodeEnum;
-import com.sunyu.kafka.util.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -92,37 +91,37 @@ public class RestExceptionHandler {
         LOGGER.debug("validator error code: {}", code);
         switch (code) {
             case "NotEmpty":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_EMPTY.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_EMPTY.getCode(), fieldError.getDefaultMessage());
             case "NotBlank":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_EMPTY.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_EMPTY.getCode(), fieldError.getDefaultMessage());
             case "NotNull":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_EMPTY.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_EMPTY.getCode(), fieldError.getDefaultMessage());
             case "Pattern":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Min":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Max":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Length":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Range":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Email":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "DecimalMin":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "DecimalMax":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Size":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Digits":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Past":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             case "Future":
-                return ResultUtil.error(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
+                return CommonResult.fail(ErrorCodeEnum.PARAM_ERROR.getCode(), fieldError.getDefaultMessage());
             default:
-                return ResultUtil.error(ErrorCodeEnum.UNKNOWN_ERROR);
+                return CommonResult.fail(ErrorCodeEnum.UNKNOWN_ERROR.getCode(),ErrorCodeEnum.UNKNOWN_ERROR.getDesc());
         }
     }
 }
