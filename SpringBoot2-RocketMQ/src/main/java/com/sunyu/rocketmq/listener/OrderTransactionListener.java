@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.sunyu.rocketmq.dao.OrderDao;
 import com.sunyu.rocketmq.model.Order;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.LocalTransactionState;
-import org.apache.rocketmq.client.producer.TransactionListener;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.common.message.MessageExt;
+
+
 
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
+import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
+import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 @Slf4j
 @RocketMQTransactionListener( txProducerGroup ="txTest")
-public class OrderTransactionListener implements TransactionListener {
+public class OrderTransactionListener implements RocketMQLocalTransactionListener {
 
     private AtomicInteger transactionIndex = new AtomicInteger(0);
 
@@ -31,6 +33,8 @@ public class OrderTransactionListener implements TransactionListener {
     @Resource
     private OrderDao orderDao;
 
+
+
     /**
      * 执行本地事务
      * @param msg
@@ -38,19 +42,20 @@ public class OrderTransactionListener implements TransactionListener {
      * @return
      */
     @Override
-    public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
+    public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("开始执行本地事务");
+        String transId = (String)msg.getHeaders().get(RocketMQHeaders.TRANSACTION_ID);
         int value = transactionIndex.getAndIncrement();
         int status = value % 3;
-        localTrans.put(msg.getTransactionId(), status);
+        localTrans.put(transId, status);
         try{
-            Order order = JSON.parseObject(new String(msg.getBody(), "utf-8"),Order.class);
+            Order order = (Order) msg.getPayload();
             order.setState(Order.COMPLETED);
             orderDao.update(order);
-            return LocalTransactionState.COMMIT_MESSAGE;
+            return RocketMQLocalTransactionState.COMMIT;
         }catch (Exception e){
             e.printStackTrace();
-            return LocalTransactionState.UNKNOW;
+            return RocketMQLocalTransactionState.UNKNOWN;
         }
     }
 
@@ -60,18 +65,19 @@ public class OrderTransactionListener implements TransactionListener {
      * @return
      */
     @Override
-    public LocalTransactionState checkLocalTransaction(MessageExt msg) {
-        Integer status = localTrans.get(msg.getTransactionId());
+    public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
+        String transId = (String)msg.getHeaders().get(RocketMQHeaders.TRANSACTION_ID);
+        Integer status = localTrans.get(transId);
         if (null != status) {
             switch (status) {
                 case 0:
-                    return LocalTransactionState.UNKNOW;
+                    return RocketMQLocalTransactionState.UNKNOWN;
                 case 1:
-                    return LocalTransactionState.COMMIT_MESSAGE;
+                    return RocketMQLocalTransactionState.COMMIT;
                 case 2:
-                    return LocalTransactionState.ROLLBACK_MESSAGE;
+                    return RocketMQLocalTransactionState.ROLLBACK;
             }
         }
-        return LocalTransactionState.COMMIT_MESSAGE;
+        return RocketMQLocalTransactionState.COMMIT;
     }
 }

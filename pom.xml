@@ -24,6 +24,8 @@
         <module>SpringBoot2-Prometheus</module>
         <module>SpringBoot2-k8s</module>
         <module>SpringBoot2-Dubbo-Provider2</module>
+        <module>SpringBoot2-Socket</module>
+        <module>SpringBoot2-SocketIO</module>
     </modules>
     <packaging>pom</packaging>
 

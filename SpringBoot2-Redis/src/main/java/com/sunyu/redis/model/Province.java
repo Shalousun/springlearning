@@ -1,6 +1,8 @@
 package com.sunyu.redis.model;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -22,6 +24,8 @@ public class Province implements Serializable {
 	private String provinceId;
 
 	private String provinceName;
+
+	private Date createTime;
 
 
 }

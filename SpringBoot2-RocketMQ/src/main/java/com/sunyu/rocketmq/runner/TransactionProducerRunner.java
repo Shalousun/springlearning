@@ -1,13 +1,12 @@
 package com.sunyu.rocketmq.runner;
 
-import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.common.RemotingHelper;
-import org.apache.rocketmq.spring.starter.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessagingException;
+import org.springframework.messaging.support.MessageBuilder;
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
 
 /**
  * 消息事务demo
@@ -25,9 +24,10 @@ public class TransactionProducerRunner implements CommandLineRunner {
     public void run(String... args) {
         Message msg = null;
         try {
-            msg = new Message("mytx-topic", "hello-word".getBytes(RemotingHelper.DEFAULT_CHARSET));
-            rocketMQTemplate.sendMessageInTransaction(txProducerGroup, msg, null);
-        } catch (UnsupportedEncodingException | MQClientException e) {
+            msg = MessageBuilder.withPayload("hello world").build();
+            //new Message("mytx-topic", "hello-word".getBytes(RemotingHelper.DEFAULT_CHARSET));
+            rocketMQTemplate.sendMessageInTransaction(txProducerGroup,"mytx-topic", msg, null);
+        } catch (MessagingException e) {
             e.printStackTrace();
         }
     }

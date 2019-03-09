@@ -27,8 +27,8 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     filters: stat,wall,log4j2
-  rocketmq:
-    nameServer: 192.168.237.131:9876
+rocketmq:
+  name-server: 172.31.205.24:9876
 
 mybatis:
   type-aliases-package: com.test.rocketmq.consumer

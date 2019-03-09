@@ -7,12 +7,12 @@ import com.test.rocketmq.consumer.model.Journal;
 import com.test.rocketmq.consumer.service.AccountService;
 import com.test.rocketmq.consumer.service.JournalService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.spring.starter.annotation.RocketMQMessageListener;
-import org.apache.rocketmq.spring.starter.annotation.RocketMQTransactionListener;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +34,7 @@ public class MessageListener implements MessageListenerConcurrently {
 
     @Autowired
     private JournalService journalService;
+
 
     @Override
     @Transactional

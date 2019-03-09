@@ -31,12 +31,13 @@ public class RedisConfig {
     public RedisTemplate getRedisTemplate(LettuceConnectionFactory factory) {
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(factory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer =new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper objectMapper =new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+       // objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+       // objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setKeySerializer(redisSerializer);
         return redisTemplate;
     }
@@ -53,9 +54,9 @@ public class RedisConfig {
     }
 
     @Bean
-    public CacheManager getRedisCacheManager(LettuceConnectionFactory factory){
+    public CacheManager getRedisCacheManager(LettuceConnectionFactory factory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
         redisCacheConfiguration.entryTtl(Duration.ofMinutes(30));
-        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory)) .cacheDefaults(redisCacheConfiguration).build();
+        return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory)).cacheDefaults(redisCacheConfiguration).build();
     }
 }
