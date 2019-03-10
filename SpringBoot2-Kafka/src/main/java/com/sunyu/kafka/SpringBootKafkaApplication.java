@@ -9,8 +9,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @EnableAsync
 @SpringBootApplication
-public class SpringBootMainApplication {
+public class SpringBootKafkaApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootMainApplication.class, args);
+        SpringApplication.run(SpringBootKafkaApplication.class, args);
     }
 }
