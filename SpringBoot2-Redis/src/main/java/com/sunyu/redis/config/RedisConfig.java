@@ -1,8 +1,9 @@
 package com.sunyu.redis.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
@@ -28,30 +28,30 @@ public class RedisConfig {
 
 
     @Bean
-    public RedisTemplate getRedisTemplate(LettuceConnectionFactory factory) {
+    public RedisTemplate<String,Object> getRedisTemplate(LettuceConnectionFactory factory) {
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(factory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-       // objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-       // objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
-        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.setKeySerializer(redisSerializer);
+        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
+        RedisSerializer<String> stringRedisSerializer = new StringRedisSerializer();
+        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setDefaultSerializer(fastJsonRedisSerializer);
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
-    @Bean
-    public StringRedisTemplate getStringRedisTemplate(LettuceConnectionFactory factory) {
-        StringRedisTemplate stringTemplate = new StringRedisTemplate();
-        stringTemplate.setConnectionFactory(factory);
-        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-        stringTemplate.setKeySerializer(redisSerializer);
-        stringTemplate.setHashKeySerializer(redisSerializer);
-        stringTemplate.setValueSerializer(redisSerializer);
-        return stringTemplate;
-    }
+//    @Bean
+//    public StringRedisTemplate getStringRedisTemplate(LettuceConnectionFactory factory) {
+//        StringRedisTemplate stringTemplate = new StringRedisTemplate();
+//        stringTemplate.setConnectionFactory(factory);
+//        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+//        stringTemplate.setKeySerializer(redisSerializer);
+//        stringTemplate.setHashKeySerializer(redisSerializer);
+//        stringTemplate.setValueSerializer(redisSerializer);
+//        return stringTemplate;
+//    }
 
     @Bean
     public CacheManager getRedisCacheManager(LettuceConnectionFactory factory) {

@@ -26,7 +26,7 @@ public class RedisCacheController {
         Province province = new Province();
         province.setProvinceId("add");
         province.setCreateTime(new Date());
-        System.out.println(JSON.toJSONString(province));
+        //System.out.println(JSON.toJSONString(province));
         redisCacheService.set("provice",province);
         return CommonResult.ok();
     }

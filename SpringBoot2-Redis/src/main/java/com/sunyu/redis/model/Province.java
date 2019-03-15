@@ -27,5 +27,6 @@ public class Province implements Serializable {
 
 	private Date createTime;
 
+	public Province(){}
 
 }

@@ -1,6 +1,7 @@
 package com.sunyu.redis.cache;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,15 +49,7 @@ public interface RedisCacheService {
      * @param key
      * @return
      */
-    Object get(String key);
-
-    /**
-     * 从redis获取class
-     * @param key
-     * @param requiredType
-     * @return
-     */
-    <T> T get(String key, Class<? extends Serializable> requiredType);
+    <T> T get(String key);
 
     /**
      * 向一个Set集合中追加元素
@@ -79,4 +72,29 @@ public interface RedisCacheService {
      * @return
      */
     long increment(String key, long delta);
+
+
+    /**
+     * @param key
+     * @param map
+     */
+    void hSet(String key, Map<String, String> map);
+
+    void hset(String key, Map<String, Object> map);
+
+
+    /**
+     * 获取hash类型的集合
+     *
+     * @param key
+     * @return
+     */
+    <K, V> Map<K, V> hGetAll(String key,Class<V> vClass);
+
+    /**
+     *
+     * @param key
+     * @return
+     */
+    Map<String,String> hGetAll(String key);
 }

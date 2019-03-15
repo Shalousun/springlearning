@@ -1,15 +1,19 @@
 package com.sunyu.redis.cache;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
  * @author yu 2018/11/08.
  */
 @Slf4j
@@ -17,50 +21,42 @@ import java.util.concurrent.TimeUnit;
 public class RedisCacheServiceImpl implements RedisCacheService {
 
     @Autowired
-    private RedisTemplate<Serializable, Serializable> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public void set(String key, Serializable value) {
-        log.debug("redis set key: {}",key);
-        redisTemplate.opsForValue().set(key,value);
+        log.debug("redis set key: {}", key);
+        redisTemplate.opsForValue().set(key, value);
     }
 
     @Override
-    public void set(String key,Serializable value, Long timeOut) {
-        log.debug("redis set key: {}",key);
+    public void set(String key, Serializable value, Long timeOut) {
+        log.debug("redis set key: {}", key);
         this.set(key, value, timeOut, TimeUnit.MINUTES);
     }
 
     @Override
     public void set(String key, Serializable value, Long timeOut, TimeUnit timeUnit) {
-        log.debug("redis set key: {}",key);
+        log.debug("redis set key: {}", key);
         redisTemplate.opsForValue().set(key, value, timeOut, timeUnit);
     }
 
     @Override
     public void delete(String key) {
-        log.debug("redis delete key: {}",key);
+        log.debug("redis delete key: {}", key);
         redisTemplate.delete(key);
     }
 
     @Override
-    public Object get(String key) {
-        if(key == null){
-            throw new IllegalArgumentException("Cache instances require an key");
-        }
-        log.debug("redis get key: {}",key);
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    @Override
-    public <T> T get(String key, Class<? extends Serializable> requiredType) {
-        log.debug("redis get key: {}",key);
-        Serializable val = redisTemplate.opsForValue().get(key);
-        if(val == null){
+    public <T> T get(String key) {
+        log.debug("Get from Redis key is {} ", key);
+        Object val = redisTemplate.opsForValue().get(key);
+        if (val == null) {
             return null;
         }
-        return ((T)val);
+        return (T) val;
     }
+
 
     @Override
     public void setAdd(String key, Object... value) {
@@ -75,5 +71,37 @@ public class RedisCacheServiceImpl implements RedisCacheService {
     @Override
     public long increment(String key, long delta) {
         return redisTemplate.opsForValue().increment(key, 1);
+    }
+
+    @Override
+    public void hSet(String key, Map<String, String> map) {
+        if (StringUtils.isNotEmpty(key) && null != map) {
+            redisTemplate.boundHashOps(key).putAll(map);
+        }
+    }
+
+    @Override
+    public void hset(String key, Map<String, Object> map) {
+        if (StringUtils.isNotEmpty(key) && null != map) {
+            redisTemplate.boundHashOps(key).putAll(map);
+        }
+    }
+
+    @Override
+    public <K, V> Map<K, V> hGetAll(String key, Class<V> vClass) {
+        Map<Object, Object> map = redisTemplate.opsForHash().entries(key);
+        if (vClass == String.class) {
+            return (Map<K, V>) map;
+        }
+        Map<K, V> kvMap = new HashMap<>();
+        map.forEach((k, v) -> {
+            kvMap.put((K) k, JSON.parseObject(v.toString(), vClass));
+        });
+        return kvMap;
+    }
+
+    @Override
+    public Map<String, String> hGetAll(String key) {
+        return hGetAll(key,String.class);
     }
 }
