@@ -33,7 +33,7 @@ public class RedisCacheController {
 
     @GetMapping("get")
     public CommonResult get(){
-        Object obj = redisCacheService.get("provice");
+        Object obj = redisCacheService.get("provice",Province.class);
         return CommonResult.ok().setResult(obj);
     }
 }

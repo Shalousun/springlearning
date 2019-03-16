@@ -1,7 +1,6 @@
 package com.sunyu.redis.cache;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisCacheServiceImpl implements RedisCacheService {
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Override
     public void set(String key, Serializable value) {
@@ -48,15 +47,22 @@ public class RedisCacheServiceImpl implements RedisCacheService {
     }
 
     @Override
-    public <T> T get(String key) {
+    public <T> T get(String key, Class<T> tClass) {
         log.debug("Get from Redis key is {} ", key);
         Object val = redisTemplate.opsForValue().get(key);
         if (val == null) {
             return null;
         }
-        return (T) val;
+        if (isPrimaryClass(tClass)) {
+            return (T) val;
+        }
+        return JSON.parseObject(val.toString(), tClass);
     }
 
+    @Override
+    public String get(String key) {
+        return get(key, String.class);
+    }
 
     @Override
     public void setAdd(String key, Object... value) {
@@ -89,19 +95,28 @@ public class RedisCacheServiceImpl implements RedisCacheService {
 
     @Override
     public <K, V> Map<K, V> hGetAll(String key, Class<V> vClass) {
-        Map<Object, Object> map = redisTemplate.opsForHash().entries(key);
-        if (vClass == String.class) {
-            return (Map<K, V>) map;
+        Map<K, V> map = redisTemplate.opsForHash().entries(key);
+        if (isPrimaryClass(vClass)) {
+            return map;
         }
         Map<K, V> kvMap = new HashMap<>();
         map.forEach((k, v) -> {
-            kvMap.put((K) k, JSON.parseObject(v.toString(), vClass));
+            kvMap.put(k, JSON.parseObject(v.toString(), vClass));
         });
         return kvMap;
     }
 
     @Override
     public Map<String, String> hGetAll(String key) {
-        return hGetAll(key,String.class);
+        return hGetAll(key, String.class);
+    }
+
+    private boolean isPrimaryClass(Class vClass) {
+        if (vClass == String.class || vClass == Integer.class || vClass == Long.class ||
+                vClass == Boolean.class || vClass == Double.class || vClass == Float.class) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

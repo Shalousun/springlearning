@@ -17,18 +17,15 @@ public class RedisCacheServiceTest extends ServiceBaseTest {
     @Autowired
     private RedisCacheService redisCacheService;
 
-    @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
 
     @Test
     public void testSetString(){
-        redisTemplate.opsForValue().set("hello","world");
-       // redisCacheService.set("hello","world");
+        redisCacheService.set("hello","world");
     }
 
     @Test
     public void testGetString(){
-        String str = redisCacheService.get("hello");
+        String str = redisCacheService.get("hello",String.class);
         System.out.println(str);
     }
 
@@ -42,7 +39,7 @@ public class RedisCacheServiceTest extends ServiceBaseTest {
 
     @Test
     public void testGetObject(){
-        Province province = redisCacheService.get("hg");
+        Province province = redisCacheService.get("hg",Province.class);
         System.out.println(province.getProvinceName());
     }
 
@@ -52,9 +49,20 @@ public class RedisCacheServiceTest extends ServiceBaseTest {
         province.setProvinceId("47");
         province.setProvinceName("韩国省");
         Map<String,Object> map = new HashMap<>();
-        map.put("name","yusun");
+        map.put("name",province);
         redisCacheService.hset("test-hash",map);
-        Map<String,String> map1 = redisCacheService.hGetAll("test-hash",String.class);
-        System.out.println(map1.get("name"));
+        Map<String,Province> map1 = redisCacheService.hGetAll("test-hash",Province.class);
+        System.out.println(map1.get("name").getProvinceName());
+    }
+
+    @Test
+    public void testHashString(){
+        Map<String,Object> map = new HashMap<>();
+        //map.put("name","yusun");
+        map.put("int",30);
+        redisCacheService.hset("test-hash-str",map);
+        Map<String,Integer> map1 = redisCacheService.hGetAll("test-hash-str",Integer.class);
+       // System.out.println(map1.get("name"));
+        System.out.println(map1.get("int"));
     }
 }

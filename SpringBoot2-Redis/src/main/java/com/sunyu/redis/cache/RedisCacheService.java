@@ -49,7 +49,14 @@ public interface RedisCacheService {
      * @param key
      * @return
      */
-    <T> T get(String key);
+    <T> T get(String key,Class<T> tClass);
+
+    /**
+     * 获取值
+     * @param key
+     * @return
+     */
+    String get(String key);
 
     /**
      * 向一个Set集合中追加元素

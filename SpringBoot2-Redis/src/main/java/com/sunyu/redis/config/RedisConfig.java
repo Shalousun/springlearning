@@ -13,6 +13,7 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
@@ -28,30 +29,33 @@ public class RedisConfig {
 
 
     @Bean
-    public RedisTemplate<String,Object> getRedisTemplate(LettuceConnectionFactory factory) {
+    public RedisTemplate redisTemplate(LettuceConnectionFactory factory) {
         RedisTemplate redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(factory);
         FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
         RedisSerializer<String> stringRedisSerializer = new StringRedisSerializer();
         redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(stringRedisSerializer);
         redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setDefaultSerializer(fastJsonRedisSerializer);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
-//    @Bean
-//    public StringRedisTemplate getStringRedisTemplate(LettuceConnectionFactory factory) {
-//        StringRedisTemplate stringTemplate = new StringRedisTemplate();
-//        stringTemplate.setConnectionFactory(factory);
-//        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
-//        stringTemplate.setKeySerializer(redisSerializer);
-//        stringTemplate.setHashKeySerializer(redisSerializer);
-//        stringTemplate.setValueSerializer(redisSerializer);
-//        return stringTemplate;
-//    }
+    @Bean
+    public StringRedisTemplate stringRedisTemplate(LettuceConnectionFactory factory) {
+        StringRedisTemplate stringTemplate = new StringRedisTemplate();
+        stringTemplate.setConnectionFactory(factory);
+        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+        stringTemplate.setKeySerializer(redisSerializer);
+        stringTemplate.setHashKeySerializer(redisSerializer);
+        stringTemplate.setValueSerializer(redisSerializer);
+        stringTemplate.afterPropertiesSet();
+        return stringTemplate;
+    }
+
+
 
     @Bean
     public CacheManager getRedisCacheManager(LettuceConnectionFactory factory) {
@@ -59,4 +63,6 @@ public class RedisConfig {
         redisCacheConfiguration.entryTtl(Duration.ofMinutes(30));
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory)).cacheDefaults(redisCacheConfiguration).build();
     }
+
+
 }
