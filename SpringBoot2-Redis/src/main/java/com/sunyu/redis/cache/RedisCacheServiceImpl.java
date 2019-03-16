@@ -139,7 +139,7 @@ public class RedisCacheServiceImpl implements RedisCacheService {
         if (isPrimaryClass(vClass)) {
             return map;
         }
-        Map<K, V> kvMap = new HashMap<>();
+        Map<K, V> kvMap = new HashMap<>(map.size());
         map.forEach((k, v) -> {
             kvMap.put(k, JSON.parseObject(v.toString(), vClass));
         });
@@ -249,7 +249,7 @@ public class RedisCacheServiceImpl implements RedisCacheService {
         if (isPrimaryClass(tClass)) {
             return list;
         } else {
-            List<T> list1 = new ArrayList<>();
+            List<T> list1 = new ArrayList<>(list.size());
             list.forEach(s -> list1.add(JSON.parseObject(s.toString(), tClass)));
             return list1;
         }

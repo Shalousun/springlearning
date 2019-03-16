@@ -58,7 +58,7 @@ public class RedisConfig {
 
 
     @Bean
-    public CacheManager getRedisCacheManager(LettuceConnectionFactory factory) {
+    public CacheManager cacheManager(LettuceConnectionFactory factory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig();
         redisCacheConfiguration.entryTtl(Duration.ofMinutes(30));
         return RedisCacheManager.builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory)).cacheDefaults(redisCacheConfiguration).build();
