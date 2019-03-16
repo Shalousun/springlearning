@@ -226,8 +226,14 @@ public interface RedisCacheService {
      * @param <T>
      * @return
      */
-    <T> T leftPop(final String key);
+    <T> T leftPop(final String key,Class<T> tClass);
 
+    /**
+     *
+     * @param key
+     * @return
+     */
+    String leftPop(final String key);
 
     /**
      * 指定 list 从右入栈
@@ -255,7 +261,16 @@ public interface RedisCacheService {
      * @param <T>
      * @return
      */
-    <T> T rightPop(final String key);
+    String  rightPop(final String key);
+
+    /**
+     *
+     * @param key
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    <T> T rightPop(final String key,Class<T> tClass);
 
     /**
      * 获取列表指定范围内的元素

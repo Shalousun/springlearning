@@ -178,57 +178,77 @@ public class RedisCacheServiceImpl implements RedisCacheService {
     }
 
 
+    @Override
+    public String leftPop(String key) {
+        return leftPop(key, String.class);
+    }
 
     @Override
-    public <T> T leftPop(String key) {
+    public <T> T leftPop(String key, Class<T> tClass) {
+        logger.debug("Redis left pop key: {}", key);
         Object val = redisTemplate.opsForList().leftPop(key);
         if (val == null) {
             return null;
         }
-        return (T) val;
+
+        if (isPrimaryClass(tClass)) {
+            return (T) val;
+        } else {
+            return JSON.parseObject(val.toString(), tClass);
+        }
     }
 
     @Override
     public Long leftPush(String key, Object value) {
-        logger.debug("leftPush key: {} value: {}", key, JSON.toJSONString(value));
+        logger.debug("LeftPush key: {} value: {}", key, JSON.toJSONString(value));
         return redisTemplate.opsForList().leftPush(key, value);
     }
 
     @Override
     public Long leftPushAll(String key, Object... values) {
-        logger.debug("leftPushAll key: {} value: {}", key, JSON.toJSONString(values));
+        logger.debug("LeftPushAll key: {} value: {}", key, JSON.toJSONString(values));
         return redisTemplate.opsForList().leftPushAll(key, values);
     }
 
     @Override
     public Long rightPush(String key, Object value) {
-        logger.debug("rightPush key: {} value: {}", key, JSON.toJSONString(value));
+        logger.debug("RightPush key: {} value: {}", key, JSON.toJSONString(value));
         return redisTemplate.opsForList().rightPush(key, value);
     }
 
     @Override
     public Long rightPushAll(String key, Object... values) {
-        logger.debug("rightPushAll key: {} value: {}", key, JSON.toJSONString(values));
-        return redisTemplate.opsForList().rightPushAll(key,values);
+        logger.debug("RightPushAll key: {} value: {}", key, JSON.toJSONString(values));
+        return redisTemplate.opsForList().rightPushAll(key, values);
     }
 
     @Override
-    public <T> T rightPop(String key) {
+    public String rightPop(String key) {
+        return rightPop(key, String.class);
+    }
+
+    @Override
+    public <T> T rightPop(String key, Class<T> tClass) {
         logger.debug("RightPop from Redis key is {} ", key);
         Object val = redisTemplate.opsForList().rightPop(key);
         if (val == null) {
             return null;
         }
-        return (T) val;
+
+        if (isPrimaryClass(tClass)) {
+            return (T) val;
+        } else {
+            return JSON.parseObject(val.toString(), tClass);
+        }
     }
 
     @Override
     public <T> List<T> lRange(String key, long start, long end, Class<T> tClass) {
         logger.debug("lRange key: {} start: {} end: {}", key, start, end);
         List<T> list = redisTemplate.opsForList().range(key, start, end);
-        if(isPrimaryClass(tClass)){
+        if (isPrimaryClass(tClass)) {
             return list;
-        }else{
+        } else {
             List<T> list1 = new ArrayList<>();
             list.forEach(s -> list1.add(JSON.parseObject(s.toString(), tClass)));
             return list1;
@@ -253,7 +273,7 @@ public class RedisCacheServiceImpl implements RedisCacheService {
 
     @Override
     public boolean hasKey(String key) {
-        return false;
+        return redisTemplate.hasKey(key);
     }
 
     @Override
