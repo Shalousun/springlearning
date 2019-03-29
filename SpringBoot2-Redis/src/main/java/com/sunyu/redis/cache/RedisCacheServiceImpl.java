@@ -66,9 +66,35 @@ public class RedisCacheServiceImpl implements RedisCacheService {
         return JSON.parseObject(val.toString(), tClass);
     }
 
+
     @Override
     public String get(String key) {
         return get(key, String.class);
+    }
+
+    @Override
+    public <T> T getAndSet(String key, Object value, Class<T> tClass) {
+        logger.debug("Get And Set from Redis key is {} value", key);
+        Object val = redisTemplate.opsForValue().getAndSet(key,value);
+        if (val == null) {
+            return null;
+        }
+        if (isPrimaryClass(tClass)) {
+            return (T) val;
+        }
+        return JSON.parseObject(val.toString(), tClass);
+    }
+
+    @Override
+    public <T> List<T> multiGet(Collection<String> keys, Class<T> tClass) {
+        List<Object> list = redisTemplate.opsForValue().multiGet(keys);
+        if(isPrimaryClass(tClass)){
+            return (List<T>)list;
+        }else {
+            List<T> list1 = new ArrayList<>(list.size());
+            list.forEach(s -> list1.add(JSON.parseObject(s.toString(), tClass)));
+            return list1;
+        }
     }
 
     @Override
@@ -253,6 +279,11 @@ public class RedisCacheServiceImpl implements RedisCacheService {
             list.forEach(s -> list1.add(JSON.parseObject(s.toString(), tClass)));
             return list1;
         }
+    }
+
+    @Override
+    public Long lLen(String key) {
+        return redisTemplate.opsForList().size(key);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.sunyu.redis.cache;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,12 +54,32 @@ public interface RedisCacheService {
      */
     <T> T get(String key,Class<T> tClass);
 
+
+    /**
+     * 批量获取
+     * @param keys
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    <T> List<T> multiGet(Collection<String> keys,Class<T> tClass);
+
     /**
      * 获取值
      * @param key
      * @return
      */
     String get(String key);
+
+    /**
+     * 将给定 key 的值设为 value ，并返回 key 的旧值(old value)
+     * @param key
+     * @param value
+     * @param tClass
+     * @param <T>
+     * @return
+     */
+    <T> T getAndSet(String key, Object value,Class<T> tClass);
 
     /**
      * 向一个Set集合中追加元素
@@ -281,6 +302,13 @@ public interface RedisCacheService {
      * @return
      */
     <T> List<T> lRange(String key, long start, long end,Class<T> tClass);
+
+    /**
+     * 获取列表长度
+     * @param key
+     * @return
+     */
+    Long lLen(String key);
 
 
     /**
