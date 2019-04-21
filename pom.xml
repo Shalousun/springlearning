@@ -26,6 +26,7 @@
         <module>SpringBoot2-Dubbo-Provider2</module>
         <module>SpringBoot2-Socket</module>
         <module>SpringBoot2-SocketIO</module>
+        <module>SpringBoot2-JWT</module>
     </modules>
     <packaging>pom</packaging>
 

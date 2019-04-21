@@ -1,13 +1,14 @@
 #Spring boot application.yml
-
-
 spring:
-  #profiles : dev
+  profiles:
+    active: dev
+---
+spring:
+  profiles : dev
   datasource:
     name: mydb
     type: com.alibaba.druid.pool.DruidDataSource
-    #jdbc:mysql://localhost:3306/cookbook?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
-    url: jdbc:mysql://localhost:3306/mq?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/project_boot?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,20 +27,19 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     filters: stat,wall,log4j2
-rocketmq:
-  name-server: 172.31.4.17:9876
-  producer:
-    compress-msg-body-over-howmuch: 4096
-    group: my-group
-    max-message-size: 4194304
-    retry-another-broker-when-not-store-ok: false
-    retry-times-when-send-async-failed: 0
-    retry-times-when-send-failed: 2
-    send-msg-timeout: 300000
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+
 mybatis:
-  type-aliases-package: com.sunyu.rocketmq
-  config-location: classpath:/mybatis-config.xml
-  mapper-locations: classpath*:com/sunyu/rocketmq/mapping/*.xml
+  type-aliases-package: com.sunyu.jwt
+  mapper-locations: classpath*:mappers/*.xml
+  configuration:
+     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+     map-underscore-to-camel-case: true
+     cache-enabled: true
 server:
   port: 8080
   tomcat:
