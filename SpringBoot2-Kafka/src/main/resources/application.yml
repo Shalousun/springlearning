@@ -6,7 +6,7 @@ spring:
 spring:
   profiles : dev
   kafka:
-    bootstrap-servers: 172.31.205.22:9092
+    bootstrap-servers: 10.236.64.81:9020,10.236.64.82:9020,10.236.64.83:9020,10.236.64.84:9020
     consumer:
       group-id: mygroup
       auto-offset-reset: earliest
@@ -17,7 +17,11 @@ spring:
       retries: 1
       batch-size: 16384
       buffer-memory: 33554432
-
+kafka:
+  consumer:
+    topics: k8s_app
+  producer:
+    topics: k8s_app
 server:
   port: 8080
   tomcat:

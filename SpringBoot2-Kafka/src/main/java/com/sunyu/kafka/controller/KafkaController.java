@@ -2,12 +2,15 @@ package com.sunyu.kafka.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class KafkaController {
 
+    @Value("${kafka.producer.topics}")
+    private String producerTopic;
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
@@ -25,10 +31,10 @@ public class KafkaController {
      * @param name
      * @return
      */
-    @GetMapping("/send")
-    public String send(String name) {
-        kafkaTemplate.send("mytopic", name);
-        return name;
+    @PostMapping("/send")
+    public String send(@RequestBody String message) {
+        kafkaTemplate.send(producerTopic, message);
+        return message;
     }
 
     /**
@@ -36,9 +42,9 @@ public class KafkaController {
      * @param message
      * @return
      */
-    @GetMapping("send2")
-    public String send2(String message){
-        ListenableFuture<SendResult<String,String>> future = kafkaTemplate.send("mytopic",message);
+    @PostMapping("send2")
+    public String send2(@RequestBody String message){
+        ListenableFuture<SendResult<String,String>> future = kafkaTemplate.send(producerTopic,message);
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
             public void onFailure(Throwable ex) {
@@ -55,9 +61,9 @@ public class KafkaController {
     }
 
     @Async
-    @GetMapping("send3")
-    public String send3(String message){
-        ListenableFuture<SendResult<String,String>> future = kafkaTemplate.send("mytopic",message);
+    @PostMapping("send3")
+    public String send3(@RequestBody String message){
+        ListenableFuture<SendResult<String,String>> future = kafkaTemplate.send(producerTopic,message);
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
             public void onFailure(Throwable ex) {
