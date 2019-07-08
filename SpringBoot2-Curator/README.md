@@ -1,0 +1,1 @@
+基于zookeeper的分布式锁。采用成熟的apache-curator客户端实现。
