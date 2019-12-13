@@ -1,6 +1,9 @@
 package com.sunyu.kafka.controller;
 
+import com.power.common.model.CommonResult;
+import com.sunyu.kafka.model.KafkaMsg;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -8,10 +11,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author yu 2018/11/9.
@@ -32,9 +32,21 @@ public class KafkaController {
      * @return
      */
     @PostMapping("/send")
-    public String send(@RequestBody String message) {
+    public CommonResult<String> send(@RequestBody String message) {
+
         kafkaTemplate.send(producerTopic, message);
-        return message;
+        return CommonResult.ok().setResult(message);
+    }
+
+    /**
+     * 发送key value测试的测试
+     * @param kafkaMsg
+     * @return
+     */
+    @PostMapping("/send/keyValue/msg")
+    public CommonResult<KafkaMsg> sendKeyValue(@RequestBody KafkaMsg kafkaMsg){
+        kafkaTemplate.send(new ProducerRecord<>(kafkaMsg.getTopic(),kafkaMsg.getKey(),kafkaMsg.getValue()));
+        return CommonResult.ok().setResult(kafkaMsg);
     }
 
     /**
@@ -43,7 +55,7 @@ public class KafkaController {
      * @return
      */
     @PostMapping("send2")
-    public String send2(@RequestBody String message){
+    public CommonResult send2(@RequestBody String message){
         ListenableFuture<SendResult<String,String>> future = kafkaTemplate.send(producerTopic,message);
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
@@ -57,12 +69,17 @@ public class KafkaController {
                 log.debug("The send msg {} with off set={}",result,result.getRecordMetadata().offset());
             }
         });
-        return message;
+        return CommonResult.ok().setResult(message);
     }
 
+    /**
+     * 异步发送消息测试
+     * @param message
+     * @return
+     */
     @Async
     @PostMapping("send3")
-    public String send3(@RequestBody String message){
+    public CommonResult<String> send3(@RequestBody String message){
         ListenableFuture<SendResult<String,String>> future = kafkaTemplate.send(producerTopic,message);
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
@@ -76,6 +93,6 @@ public class KafkaController {
                 log.debug("The send msg {} with off set={}",result,result.getRecordMetadata().offset());
             }
         });
-        return message;
+        return CommonResult.ok().setResult(message);
     }
 }

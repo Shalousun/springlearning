@@ -2,11 +2,12 @@ package com.sunyu.kafka;
 
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.ApiDocBuilder;
-import com.sunyu.kafka.enums.ErrorCodeEnum;
+import com.power.doc.builder.HtmlApiDocBuilder;
+import com.power.doc.constants.DocGlobalConstants;
 import com.power.doc.model.ApiConfig;
 import com.power.doc.model.ApiErrorCode;
 import com.power.doc.model.CustomRespField;
-import com.power.doc.model.SourcePath;
+import com.sunyu.kafka.enums.ErrorCodeEnum;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -26,11 +27,9 @@ public class DocCreatorTest {
    public void testBuilderControllersApi() {
        ApiConfig config = new ApiConfig();
        config.setStrict(false);
-       config.setOutPath("d:\\md");
-       // set java source path
-       config.setSourcePaths(
-               SourcePath.path().setDesc("current project").setPath("src/main/java")
-       );
+       config.setAllInOne(true);
+       config.setOutPath(DocGlobalConstants.HTML_DOC_OUT_PATH);
+
 
        // change field
        config.setCustomResponseFields(
@@ -48,7 +47,7 @@ public class DocCreatorTest {
 
 
        long start = System.currentTimeMillis();
-       ApiDocBuilder.builderControllersApi(config);
+       HtmlApiDocBuilder.builderControllersApi(config);
        long end = System.currentTimeMillis();
        DateTimeUtil.printRunTime(end, start);
    }
