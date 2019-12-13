@@ -14,6 +14,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * kafka消息发送测试
  * @author yu 2018/11/9.
  */
 @Slf4j
