@@ -34,13 +34,12 @@ public class KafkaController {
      */
     @PostMapping("/send")
     public CommonResult<String> send(@RequestBody String message) {
-
         kafkaTemplate.send(producerTopic, message);
         return CommonResult.ok().setResult(message);
     }
 
     /**
-     * 发送key value测试的测试
+     * 指定topic发送key value测试的测试
      * @param kafkaMsg
      * @return
      */

@@ -86,7 +86,14 @@
         <dependency>
             <groupId>com.github.shalousun</groupId>
             <artifactId>smart-doc</artifactId>
-            <version>1.7.8</version>
+            <version>1.7.9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shalousun</groupId>
+            <artifactId>smart-doc</artifactId>
+            <version>1.7.9</version>
+            <classifier>sources</classifier>
             <scope>test</scope>
         </dependency>
         <dependency>
