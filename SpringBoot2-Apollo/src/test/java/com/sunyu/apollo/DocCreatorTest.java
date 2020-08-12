@@ -5,7 +5,7 @@ import com.power.doc.builder.ApiDocBuilder;
 import com.power.doc.model.ApiConfig;
 import com.power.doc.model.ApiErrorCode;
 import com.power.doc.model.CustomRespField;
-import com.power.doc.model.SourcePath;
+import com.power.doc.model.SourceCodePath;
 import com.sunyu.apollo.enums.ErrorCode;
 import org.junit.Test;
 
@@ -29,8 +29,8 @@ public class DocCreatorTest {
        config.setServerUrl("http://spring.boot2.apollo.com");
        config.setOutPath("d:\\md");
        // set java source path
-       config.setSourcePaths(
-               SourcePath.path().setDesc("current project").setPath("src/main/java")
+       config.setSourceCodePaths(
+               SourceCodePath.path().setDesc("current project").setPath("src/main/java")
        );
 
        // change field
@@ -49,7 +49,7 @@ public class DocCreatorTest {
 
 
        long start = System.currentTimeMillis();
-       ApiDocBuilder.builderControllersApi(config);
+       ApiDocBuilder.buildApiDoc(config);
        long end = System.currentTimeMillis();
        DateTimeUtil.printRunTime(end, start);
    }
