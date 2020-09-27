@@ -84,12 +84,12 @@
         <dependency>
            <groupId>com.github.shalousun</groupId>
            <artifactId>common-util</artifactId>
-           <version>1.9.6</version>
+           <version>1.9.8</version>
          </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
+            <optional>true</optional>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -107,14 +107,6 @@
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
-                <dependencies>
-                    <!-- hot deploy in idea-->
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.8.RELEASE</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

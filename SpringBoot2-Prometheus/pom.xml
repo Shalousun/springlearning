@@ -51,13 +51,13 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.10</version>
+            <version>1.1.23</version>
         </dependency>
         <!-- mysql driver-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
+            <scope>runtime</scope>
         </dependency>
 
 
@@ -112,19 +112,19 @@
         <dependency>
            <groupId>com.github.shalousun</groupId>
            <artifactId>common-util</artifactId>
-           <version>1.9.6</version>
+           <version>1.9.8</version>
          </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc -->
         <dependency>
             <groupId>com.github.shalousun</groupId>
             <artifactId>smart-doc</artifactId>
-            <version>1.9.1</version>
+            <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
+            <optional>true</optional>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -137,14 +137,6 @@
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
-                <dependencies>
-                    <!-- hot deploy in idea-->
-                    <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.8.RELEASE</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

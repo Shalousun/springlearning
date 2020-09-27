@@ -1,7 +1,6 @@
 package com.test.dubbo.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.test.dubbo.service.api.DemoService;
 import com.test.dubbo.service.api.UserService;
 
 import java.util.HashMap;
