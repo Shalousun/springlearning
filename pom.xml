@@ -24,6 +24,7 @@
         <module>SpringBoot2-SocketIO</module>
         <module>SpringBoot2-JWT</module>
         <module>SpringBoot2-Curator</module>
+        <module>SpringBoot2-Dubbo-GrayLoadBalance</module>
     </modules>
     <packaging>pom</packaging>
 
