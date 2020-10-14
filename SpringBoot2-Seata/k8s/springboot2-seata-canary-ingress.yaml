@@ -1,0 +1,24 @@
+# Used for Grayscale deployment
+# --------------------------- ingress,k8s 1.13---------------------- #
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-by-header: "new"
+  labels:
+    app: springboot2-seata
+    version: 1.0
+  name: springboot2-seata-1-0-canary-ingress
+  namespace: default
+spec:
+  rules:
+  - host: your host
+    http:
+      #port: 80
+      paths:
+      - path: /your_path
+        backend:
+          serviceName: springboot2-seata-1-0-svc
+          servicePort: 8080
+---
