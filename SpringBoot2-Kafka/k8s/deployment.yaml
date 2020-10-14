@@ -16,7 +16,7 @@
 #
 # Example usage: kubectl create -f <this_file>
 # ------------------- SpringBoot Application Deployment ------------------- #
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: SpringBoot2-Kafka-rc
