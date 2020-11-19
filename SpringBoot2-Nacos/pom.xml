@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.sunyu.nacos</groupId>
+    <artifactId>SpringBoot2-Nacos</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>SpringBoot2-Nacos</name>
+    <description>SpringBoot2-Nacos</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.9.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+        <!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- Spring boot actuator to expose metrics endpoint -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- Micrometer Prometheus registry  -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!--https://gitee.com/sunyurepository/ApplicationPower-->
+        <dependency>
+           <groupId>com.github.shalousun</groupId>
+           <artifactId>common-util</artifactId>
+           <version>2.0.1</version>
+         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc -->
+        <dependency>
+            <groupId>com.github.shalousun</groupId>
+            <artifactId>smart-doc</artifactId>
+            <version>1.9.8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>nacos-config-spring-boot-starter</artifactId>
+            <version>0.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <!--smart-doc-->
+                    <configFile>./src/main/resources/smart-doc.json</configFile>
+                    <!--Exclude jars that fail to load third-party dependent source code-->
+                    <excludes>
+                        <!--The format is: groupId: artifactId; refer to the following-->
+                        <exclude>com.alibaba:fastjson</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!--Comment out phase if you don't need to start smart-doc when compiling-->
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>html</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.2</version>
+                <configuration>
+                    <!--<dockerHost>http://192.168.248.135:2376</dockerHost>-->
+                   <imageName>${project.groupId}/${project.build.finalName}:${project.version}</imageName>
+                   <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                   <resources>
+                       <resource>
+                           <directory>${project.build.directory}</directory>
+                           <include>${project.build.finalName}.jar</include>
+                       </resource>
+                   </resources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <finalName>springboot2-nacos</finalName>
+    </build>
+     <repositories>
+        <repository>
+            <id>aliyun-nexus</id>
+            <name>Nexus</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+     </repositories>
+</project>

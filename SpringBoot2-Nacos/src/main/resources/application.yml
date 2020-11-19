@@ -1,0 +1,32 @@
+#Spring boot application.yml
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles : dev
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: true
+nacos.config:
+  # 开启配置预加载功能
+  bootstrap.enable: true
+  server-addr: 172.31.129.137:8848
+  data-id: com.iflytek.cmcc.hndh
+  # group 此处根据环境不同调整
+  group: basis.smarthome.dev
+  # 主配置 配置文件类型
+  type: properties
+  # 主配置 开启自动刷新
+  auto-refresh: true
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ../logs
+  error:
+    whitelabel:
+      enabled: false
+  shutdown: graceful
