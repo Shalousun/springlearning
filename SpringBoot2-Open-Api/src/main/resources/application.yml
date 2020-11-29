@@ -1,0 +1,36 @@
+#Spring boot application.yml
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles : dev
+  lifecycle:
+    timeout-per-shutdown-phase: 30
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: true
+
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: ../logs
+  error:
+    whitelabel:
+      enabled: false
+  shutdown: graceful
+# custom path for swagger-ui
+springdoc:
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operations-sorter: method
+   #custom path for api docs
+    url: /doc/openapi.json
+#  api-docs:
+#    path: /api-docs
+think:
+  checkmac:
+    enabled: true

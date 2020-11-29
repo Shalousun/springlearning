@@ -27,6 +27,7 @@
         <module>SpringBoot2-Dubbo-GrayLoadBalance</module>
         <module>SpringBoot2-Seata</module>
         <module>SpringBoot2-Nacos</module>
+        <module>SpringBoot2-Open-Api</module>
     </modules>
     <packaging>pom</packaging>
 
