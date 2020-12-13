@@ -1,5 +1,6 @@
 package com.sunyu.openapi.model;
 
+import com.sunyu.openapi.enums.OrderEnum;
 import lombok.Data;
 
 import javax.validation.constraints.Max;
@@ -35,6 +36,11 @@ public class Ball {
     @Max(50)
     private Integer players;
 
+//    /**
+//     * 订单类型
+//     */
+//    private OrderEnum orderType;
+
     public long getId() {
         return id;
     }
@@ -66,4 +72,12 @@ public class Ball {
     public void setPlayers(Integer players) {
         this.players = players;
     }
+
+//    public OrderEnum getOrderType() {
+//        return orderType;
+//    }
+//
+//    public void setOrderType(OrderEnum orderType) {
+//        this.orderType = orderType;
+//    }
 }

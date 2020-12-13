@@ -1,9 +1,10 @@
 {
-  "serverUrl": "http://{{server}}:8080",
+  "serverUrl": "http://localhost:8080",
   "isStrict": false,
   "allInOne": true,
   "outPath": "src/main/resources/static/doc",
   "coverOld": true,
+  "createDebugPage": true,
   "packageFilters": "com.sunyu.openapi.controller",
   "md5EncryptedHtmlName": false,
   "projectName": "SpringBoot2-Open-Api",
