@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class Article implements Serializable {
 
-    private static final long serialVersionUID = -6686909221192812650L;
+    private static final long serialVersionUID = -6686909222.0.012650L;
 
    	private Integer articleId;
 
