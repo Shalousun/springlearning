@@ -1,0 +1,53 @@
+{
+  "info": {
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "5fcc90e2-5aac-481c-86a4-b57384367dd6",
+    "name": "SpringBoot2-Open-Api"
+  },
+  "item": [
+    {
+      "name": "Interface name is not set.",
+      "item": [
+        {
+          "name": "app测试3",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"mapKey\":{\n\t\t\"id\":561,\n\t\t\"category\":\"jcbth3\",\n\t\t\"owner\":\"hm3tpv\",\n\t\t\"players\":309\n\t}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://::server:8080/api/ball/test3/金鑫.徐",
+              "path": [
+                "api",
+                "ball",
+                "test3",
+                ":name"
+              ],
+              "host": [
+                "{{server}}"
+              ],
+              "port": "8080",
+              "query": [],
+              "variable": [
+                {
+                  "key": "name",
+                  "value": "\"金鑫.徐\"",
+                  "description": "姓名"
+                }
+              ]
+            },
+            "description": "app测试3",
+            "header": []
+          },
+          "description": "app测试3"
+        }
+      ]
+    }
+  ]
+}

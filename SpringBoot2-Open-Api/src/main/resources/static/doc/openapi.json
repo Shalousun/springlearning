@@ -1,0 +1,466 @@
+{
+  "components": {
+    "schemas": {
+      "_api_ball_test3__name_request": {
+        "properties": {
+          "id": {
+            "format": "int64",
+            "description": "主键",
+            "type": "integer"
+          },
+          "category": {
+            "format": "string",
+            "description": "种类",
+            "type": "string"
+          },
+          "owner": {
+            "format": "string",
+            "description": "所属人",
+            "type": "string"
+          },
+          "players": {
+            "format": "int32",
+            "description": "几人一组",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "category",
+          "owner"
+        ]
+      },
+      "_api_ball_batchUploadresponse": {
+        "properties": {
+          "success": {
+            "format": "boolean",
+            "description": "是否成功",
+            "type": "boolean"
+          },
+          "message": {
+            "format": "string",
+            "description": "错误提示(成功succeed)",
+            "type": "string"
+          },
+          "data": {
+            "description": "成功返回的数据"
+          },
+          "code": {
+            "format": "string",
+            "description": "错误代码",
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "string",
+            "description": "响应时间",
+            "type": "string"
+          }
+        }
+      },
+      "_api_ball_uploadresponse": {
+        "properties": {
+          "success": {
+            "format": "boolean",
+            "description": "是否成功",
+            "type": "boolean"
+          },
+          "message": {
+            "format": "string",
+            "description": "错误提示(成功succeed)",
+            "type": "string"
+          },
+          "data": {
+            "description": "成功返回的数据"
+          },
+          "code": {
+            "format": "string",
+            "description": "错误代码",
+            "type": "string"
+          },
+          "timestamp": {
+            "format": "string",
+            "description": "响应时间",
+            "type": "string"
+          }
+        }
+      },
+      "_api_ball_batchUploadrequest": {},
+      "_api_ball__id_response": {
+        "properties": {
+          "id": {
+            "format": "int64",
+            "description": "主键",
+            "type": "integer"
+          },
+          "category": {
+            "format": "string",
+            "description": "种类",
+            "type": "string"
+          },
+          "owner": {
+            "format": "string",
+            "description": "所属人",
+            "type": "string"
+          },
+          "players": {
+            "format": "int32",
+            "description": "几人一组",
+            "type": "integer"
+          }
+        }
+      },
+      "_api_ball_uploadrequest": {},
+      "_api_ball__id_request": {},
+      "_api_ball_test3__name_response": {
+        "properties": {
+          "id": {
+            "format": "int64",
+            "description": "主键",
+            "type": "integer"
+          },
+          "category": {
+            "format": "string",
+            "description": "种类",
+            "type": "string"
+          },
+          "owner": {
+            "format": "string",
+            "description": "所属人",
+            "type": "string"
+          },
+          "players": {
+            "format": "int32",
+            "description": "几人一组",
+            "type": "integer"
+          }
+        }
+      },
+      "_api_ball_enum__orderEnum_request": {}
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "openapi": "3.0.3",
+  "paths": {
+    "/api/ball/batchUpload": {
+      "post": {
+        "summary": "批量上传文件",
+        "deprecated": false,
+        "description": "批量上传文件",
+        "tags": [
+          "测试openapi"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "description": "文件(array of file)",
+                    "type": "array",
+                    "items": {
+                      "format": "binary",
+                      "type": "string"
+                    },
+                    "example": "\"\""
+                  }
+                }
+              },
+              "examples": {
+                "json": {
+                  "summary": "test data",
+                  "value": "curl -X POST  -i http://localhost:8080/api/ball/batchUpload"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/_api_ball_batchUploadresponse"
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "{\n\t\"success\":true,\n\t\"message\":\"success\",\n\t\"data\":{\n\t\t\"waring\":\"You may have used non-display generics.\"\n\t},\n\t\"code\":\"64083\",\n\t\"timestamp\":\"2020-12-13 19:17:52\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "cf46bf0b7be2f5ccdde9ebdb11d9ed41",
+        "parameters": []
+      }
+    },
+    "/api/ball/enum/{orderEnum}": {
+      "get": {
+        "summary": "获取枚举参数2",
+        "deprecated": false,
+        "description": "获取枚举参数2",
+        "tags": [
+          "测试openapi"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "94b4e795710cb4a552003d6b429d2d6d",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "WAIT_PAY",
+                "PAID",
+                "EXPIRED"
+              ]
+            },
+            "in": "path",
+            "description": "WAIT_PAY -(0,已支付)\u003cbr/\u003ePAID -(1,已支付)\u003cbr/\u003eEXPIRED -(2,已经失效)\u003cbr/\u003e",
+            "required": true,
+            "example": "0",
+            "name": "orderEnum"
+          }
+        ]
+      }
+    },
+    "/api/ball/upload": {
+      "post": {
+        "summary": "上传单个文件",
+        "deprecated": false,
+        "description": "上传单个文件",
+        "tags": [
+          "测试openapi"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "description": "用户id",
+                    "type": "string",
+                    "example": "\"181\""
+                  },
+                  "file": {
+                    "format": "binary",
+                    "type": "file",
+                    "example": "\"\""
+                  }
+                }
+              },
+              "examples": {
+                "json": {
+                  "summary": "test data",
+                  "value": "curl -X POST  -i http://localhost:8080/api/ball/upload --data \u0027userId\u003d181\u0027"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/_api_ball_uploadresponse"
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "{\n\t\"success\":true,\n\t\"message\":\"success\",\n\t\"data\":{\n\t\t\"waring\":\"You may have used non-display generics.\"\n\t},\n\t\"code\":\"64083\",\n\t\"timestamp\":\"2020-12-13 19:17:52\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "c4c7c65aa0c3298e4010689da41ad3d8",
+        "parameters": []
+      }
+    },
+    "/api/ball/test3/{name}": {
+      "post": {
+        "summary": "app测试3",
+        "deprecated": false,
+        "description": "app测试3",
+        "tags": [
+          "测试openapi"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json; charset\u003dutf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/_api_ball_test3__name_request"
+              },
+              "examples": {
+                "json": {
+                  "summary": "test data",
+                  "value": "{\n\t\"mapKey\":{\n\t\t\"id\":29,\n\t\t\"category\":\"jgll2n\",\n\t\t\"owner\":\"9hycyk\",\n\t\t\"players\":444\n\t}\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/_api_ball_test3__name_response"
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "{\n\t\"mapKey\":{\n\t\t\"id\":754,\n\t\t\"category\":\"7dctm9\",\n\t\t\"owner\":\"3ub7zh\",\n\t\t\"players\":818\n\t}\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "c38bedc0428435f17748774ac2a7a868",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "description": "     姓名",
+            "required": true,
+            "example": "子涵.王",
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "/api/ball/{id}": {
+      "post": {
+        "summary": "",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "测试openapi"
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded;charset\u003dutf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/_api_ball__id_request"
+              },
+              "examples": {
+                "json": {
+                  "summary": "test data",
+                  "value": "curl -X POST  -i http://localhost:8080/api/ball/558 --data \u0027players\u003d336\u0026owner\u003dsc80g4\u0026category\u003dsky39c\u0026id\u003d775\u0027"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/_api_ball__id_response"
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "{\n\t\"id\":911,\n\t\"category\":\"cjtsq5\",\n\t\"owner\":\"qfqpil\",\n\t\"players\":192\n}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "a95d1f3a8a8109f48180a5b79cb84add",
+        "parameters": [
+          {
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "in": "path",
+            "description": "  编号",
+            "required": true,
+            "example": "q4j1lh",
+            "name": "id"
+          },
+          {
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            },
+            "in": "query",
+            "description": "主键",
+            "required": false,
+            "example": "398",
+            "name": "id"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "种类",
+            "required": true,
+            "example": "f4wv5x",
+            "name": "category"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "所属人",
+            "required": true,
+            "example": "9y4qvu",
+            "name": "owner"
+          },
+          {
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "in": "query",
+            "description": "几人一组",
+            "required": false,
+            "example": "524",
+            "name": "players"
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "SpringBoot2-Open-Api",
+    "version": "1.0.0"
+  }
+}

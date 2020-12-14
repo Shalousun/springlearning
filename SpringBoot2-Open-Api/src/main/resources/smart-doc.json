@@ -4,6 +4,7 @@
   "allInOne": true,
   "outPath": "src/main/resources/static/doc",
   "coverOld": true,
+  "style":"xt256",
   "createDebugPage": true,
   "packageFilters": "com.sunyu.openapi.controller",
   "md5EncryptedHtmlName": false,
@@ -13,5 +14,13 @@
     "enumClassName": "com.power.common.enums.HttpCodeEnum",
     "codeField": "code",
     "descField": "message"
+  }],
+  "requestHeaders": [{
+    "name": "token",
+    "type": "string",
+    "desc": "desc",
+    "value":"token请求头的值",
+    "required": false,
+    "since": "-"
   }]
 }
