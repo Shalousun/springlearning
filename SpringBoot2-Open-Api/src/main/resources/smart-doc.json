@@ -1,15 +1,20 @@
 {
   "serverUrl": "http://localhost:8080",
   "isStrict": false,
-  "allInOne": true,
-  "outPath": "src/main/resources/static/doc",
+  "allInOne": false,
+  "outPath": "src/main/resources/static/doc/",
   "coverOld": true,
   "style":"xt256",
-  "createDebugPage": true,
+  "createDebugPage": false,
   "packageFilters": "com.sunyu.openapi.controller",
   "md5EncryptedHtmlName": false,
   "projectName": "SpringBoot2-Open-Api",
   "errorCodeDictionaries": [{
+    "title": "title",
+    "enumClassName": "com.power.common.enums.HttpCodeEnum",
+    "codeField": "code",
+    "descField": "message"
+  },{
     "title": "title",
     "enumClassName": "com.power.common.enums.HttpCodeEnum",
     "codeField": "code",
@@ -19,8 +24,14 @@
     "name": "token",
     "type": "string",
     "desc": "desc",
-    "value":"token请求头的值",
+    "value":"aa",
     "required": false,
     "since": "-"
+  }],
+  "dataDictionaries": [{ //配置数据字典，没有需求可以不设置
+    "title": "http状态码字典", //数据字典的名称
+    "enumClassName": "com.power.common.enums.HttpCodeEnum", //数据字典枚举类名称
+    "codeField": "code",//数据字典字典码对应的字段名称
+    "descField": "message"//数据字典对象的描述信息字典
   }]
 }
