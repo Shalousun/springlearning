@@ -96,20 +96,26 @@ $("button").on("click", function () {
     ajaxOptions.type = method
     ajaxOptions.data = body;
 
-    const ajaxTime = new Date().getTime();
     const $responseEle = $("#" + id + "-response").find("pre code");
+    const ajaxTime = new Date().getTime();
     $.ajax(ajaxOptions).done(function (result, textStatus, jqXHR) {
+        const totalTime = new Date().getTime() - ajaxTime;
         $this.css("background", "#5cb85c");
+        $("#" + id + "-resp-status").html("&nbsp;Status:&nbsp;" + jqXHR.status + "&nbsp;&nbsp;" + jqXHR.statusText + "&nbsp;&nbsp;&nbsp;&nbsp;Time:&nbsp;" + totalTime + "&nbsp;ms");
         const highlightedCode = hljs.highlight('json', JSON.stringify(result, null, 4)).value;
         $responseEle.html(highlightedCode);
-        const totalTime = new Date().getTime() - ajaxTime;
-        $("#" + id + "-resp-status").html("&nbsp;Status:&nbsp;" + jqXHR.status + "&nbsp;&nbsp;" + jqXHR.statusText + "&nbsp;&nbsp;&nbsp;&nbsp;Time:&nbsp;" + totalTime + "&nbsp;ms")
     }).fail(function (jqXHR) {
-        $this.css("background", "#D44B47");
-        const highlightedCode = hljs.highlight('json', JSON.stringify(jqXHR.responseJSON, null, 4)).value;
-        $responseEle.html(highlightedCode);
         const totalTime = new Date().getTime() - ajaxTime;
-        $("#" + id + "-resp-status").html("&nbsp;Status:&nbsp;" + jqXHR.status + "&nbsp;&nbsp;" + jqXHR.statusText + "&nbsp;&nbsp;&nbsp;&nbsp;Time:&nbsp;" + totalTime + "&nbsp;ms")
+        $this.css("background", "#D44B47");
+        if (jqXHR.status === 0 && jqXHR.readyState === 0) {
+            $("#" + id + "-resp-status").html("Connection refused, please check the server.");
+        } else {
+            $("#" + id + "-resp-status").html("&nbsp;Status:&nbsp;" + jqXHR.status + "&nbsp;&nbsp;" + jqXHR.statusText + "&nbsp;&nbsp;&nbsp;&nbsp;Time:&nbsp;" + totalTime + "&nbsp;ms");
+        }
+        if (undefined !== jqXHR.responseJSON) {
+            const highlightedCode = hljs.highlight('json', JSON.stringify(jqXHR.responseJSON, null, 4)).value;
+            $responseEle.html(highlightedCode);
+        }
     }).always(function () {
 
 

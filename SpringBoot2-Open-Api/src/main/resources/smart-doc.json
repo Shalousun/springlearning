@@ -5,7 +5,7 @@
   "outPath": "src/main/resources/static/doc/",
   "coverOld": true,
   "style":"xt256",
-  "createDebugPage": false,
+  "createDebugPage": true,
   "packageFilters": "com.sunyu.openapi.controller",
   "md5EncryptedHtmlName": false,
   "projectName": "SpringBoot2-Open-Api",
@@ -22,6 +22,13 @@
   }],
   "requestHeaders": [{
     "name": "token",
+    "type": "string",
+    "desc": "desc",
+    "value":"aa",
+    "required": false,
+    "since": "-"
+  },{
+    "name": "token2",
     "type": "string",
     "desc": "desc",
     "value":"aa",

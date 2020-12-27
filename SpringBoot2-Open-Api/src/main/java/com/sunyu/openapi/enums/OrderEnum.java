@@ -1,14 +1,16 @@
 package com.sunyu.openapi.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * @author yu 2020/12/1.
  */
-public enum  OrderEnum {
+public enum OrderEnum {
     WAIT_PAY("0", "已支付"),
 
     PAID("1", "已支付"),
 
-    EXPIRED("2","已经失效");
+    EXPIRED("2", "已经失效");
 
     private String code;
 
@@ -19,6 +21,7 @@ public enum  OrderEnum {
         this.desc = desc;
     }
 
+    @JsonValue
     public String getCode() {
         return this.code;
     }

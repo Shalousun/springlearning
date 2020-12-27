@@ -8,8 +8,6 @@ import com.power.doc.model.ApiErrorCodeDictionary;
 import com.power.doc.model.CustomRespField;
 import com.power.doc.model.SourceCodePath;
 import com.sunyu.openapi.enums.ErrorCodeEnum;
-import io.github.yedaxia.apidocs.Docs;
-import io.github.yedaxia.apidocs.DocsConfig;
 import org.junit.Test;
 
 
@@ -51,16 +49,5 @@ public class SmartDocTest {
         HtmlApiDocBuilder.buildApiDoc(config);
         long end = System.currentTimeMillis();
         DateTimeUtil.printRunTime(end, start);
-    }
-
-    @Test
-    public void createJapi(){
-        DocsConfig config = new DocsConfig();
-        config.setProjectPath("D:\\workstation\\springlearning\\SpringBoot2-Open-Api"); // root project path
-        config.setProjectName("ProjectName"); // project name
-        config.setApiVersion("V1.0");       // api version
-        config.setDocsPath("src/main/resources/static/doc/"); // api docs target path
-        config.setAutoGenerate(Boolean.TRUE);  // auto generate
-        Docs.buildHtmlDocs(config); // execute to generate
     }
 }
