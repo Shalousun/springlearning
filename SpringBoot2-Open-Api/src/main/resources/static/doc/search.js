@@ -1,72 +1,46 @@
 let api = [];
 api.push({
-    alias: 'debug',
+    alias: 'UserController',
     order: '1',
-    desc: '测试openapi',
-    link: '测试openapi',
+    link: 'the_type_user_controller.',
+    desc: 'The type User controller.',
     list: []
 })
 api[0].list.push({
     order: '1',
-    desc: '根据id获取',
+    desc: 'Get all users list.',
 });
 api[0].list.push({
     order: '2',
-    desc: '查询所有',
+    desc: 'Gets users by id.',
 });
 api[0].list.push({
     order: '3',
-    desc: '',
+    desc: 'Create user.',
 });
 api[0].list.push({
     order: '4',
-    desc: '获取枚举参数2',
+    desc: 'Update user response entity.',
 });
 api[0].list.push({
     order: '5',
-    desc: 'app测试3',
-});
-api.push({
-    alias: 'DownloadController',
-    order: '2',
-    desc: '文件下载测试',
-    link: '文件下载测试',
-    list: []
-})
-api[1].list.push({
-    order: '1',
-    desc: '下载普通文件文件',
-});
-api.push({
-    alias: 'FileUploadController',
-    order: '3',
-    desc: '文件上传测试',
-    link: '文件上传测试',
-    list: []
-})
-api[2].list.push({
-    order: '1',
-    desc: '上传单个文件',
-});
-api[2].list.push({
-    order: '2',
-    desc: '批量上传文件',
+    desc: 'Delete user.',
 });
 api.push({
     alias: 'error',
-    order: '4',
-    desc: '错误码列表',
+    order: '2',
     link: 'error_code_list',
+    desc: 'Error Code List',
     list: []
 })
 api.push({
     alias: 'dict',
-    order: '5',
-    desc: '数据字典',
+    order: '3',
     link: 'dict_list',
+    desc: 'Data Dictionaries',
     list: []
 })
-api[4].list.push({
+api[2].list.push({
     order: '1',
     desc: 'http状态码字典',
 });
@@ -86,7 +60,6 @@ function keyDownSearch(e) {
                     order: apiData.order,
                     desc: apiData.desc,
                     link: apiData.link,
-                    alias: apiData.alias,
                     list: apiData.list
                 });
             } else {
@@ -104,7 +77,6 @@ function keyDownSearch(e) {
                     const data = {
                         order: apiData.order,
                         desc: apiData.desc,
-                        alias: apiData.alias,
                         link: apiData.link,
                         list: methodListTemp
                     };
@@ -147,13 +119,13 @@ function buildAccordion(apiData, liClass, display) {
     let html = "";
     let doc;
     if (apiData.length > 0) {
-         for (let j = 0; j < apiData.length; j++) {
+        for (let j = 0; j < apiData.length; j++) {
             html += '<li class="'+liClass+'">';
-            html += '<a class="dd" href="' + apiData[j].alias + '.html#header">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
+            html += '<a class="dd" href="#_' + apiData[j].link + '">' + apiData[j].order + '.&nbsp;' + apiData[j].desc + '</a>';
             html += '<ul class="sectlevel2" style="'+display+'">';
             doc = apiData[j].list;
             for (let m = 0; m < doc.length; m++) {
-                html += '<li><a href="' + apiData[j].alias + '.html#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + doc[m].desc + '</a> </li>';
+                html += '<li><a href="#_' + apiData[j].order + '_' + doc[m].order + '_' + doc[m].desc + '">' + apiData[j].order + '.' + doc[m].order + '.&nbsp;' + doc[m].desc + '</a> </li>';
             }
             html += '</ul>';
             html += '</li>';

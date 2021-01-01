@@ -18,7 +18,7 @@ $(function () {
     hljs.initHighlightingOnLoad();
 });
 
-$("[contenteditable=true]").on('paste blur', function (e) {
+$("[contenteditable=plaintext-only]").on('blur', function (e) {
     e.preventDefault();
     const $this = $(this);
     const data = $this.text();
@@ -282,7 +282,7 @@ function toCurl(request) {
     if (typeof request.headers == 'object') {
         for (let key in request.headers) {
             if (Object.prototype.hasOwnProperty.call(request.headers, key)) {
-                cmd.push("H");
+                cmd.push("-H");
                 headerValue = request.headers[key];
                 if (headerValue.value == '') {
                     cmd.push("'" + key + "'");

@@ -3,6 +3,7 @@ package com.sunyu.openapi;
 import com.power.common.util.DateTimeUtil;
 import com.power.doc.builder.HtmlApiDocBuilder;
 import com.power.doc.constants.DocGlobalConstants;
+import com.power.doc.constants.DocLanguage;
 import com.power.doc.model.ApiConfig;
 import com.power.doc.model.ApiErrorCodeDictionary;
 import com.power.doc.model.CustomRespField;
@@ -25,6 +26,7 @@ public class SmartDocTest {
         ApiConfig config = new ApiConfig();
         config.setStrict(false);
         config.setAllInOne(true);
+        config.setLanguage(DocLanguage.CHINESE);
         config.setOutPath(DocGlobalConstants.HTML_DOC_OUT_PATH);
         config.setCreateDebugPage(true);
         // set java source path
@@ -47,6 +49,7 @@ public class SmartDocTest {
 
         long start = System.currentTimeMillis();
         HtmlApiDocBuilder.buildApiDoc(config);
+        System.out.println(config);
         long end = System.currentTimeMillis();
         DateTimeUtil.printRunTime(end, start);
     }

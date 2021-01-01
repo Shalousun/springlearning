@@ -1,10 +1,11 @@
 {
   "serverUrl": "http://localhost:8080",
   "isStrict": false,
-  "allInOne": false,
+  "allInOne": true,
   "outPath": "src/main/resources/static/doc/",
   "coverOld": true,
   "style":"xt256",
+  "language":"ENGLISH",
   "createDebugPage": true,
   "packageFilters": "com.sunyu.openapi.controller",
   "md5EncryptedHtmlName": false,
@@ -14,23 +15,18 @@
     "enumClassName": "com.power.common.enums.HttpCodeEnum",
     "codeField": "code",
     "descField": "message"
-  },{
-    "title": "title",
-    "enumClassName": "com.power.common.enums.HttpCodeEnum",
-    "codeField": "code",
-    "descField": "message"
   }],
   "requestHeaders": [{
     "name": "token",
     "type": "string",
-    "desc": "desc",
+    "desc": "auth token",
     "value":"aa",
     "required": false,
     "since": "-"
   },{
-    "name": "token2",
+    "name": "appId",
     "type": "string",
-    "desc": "desc",
+    "desc": "auth appId",
     "value":"aa",
     "required": false,
     "since": "-"
