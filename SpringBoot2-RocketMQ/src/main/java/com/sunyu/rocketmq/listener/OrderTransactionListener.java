@@ -1,12 +1,8 @@
 package com.sunyu.rocketmq.listener;
 
-import com.alibaba.fastjson.JSON;
 import com.sunyu.rocketmq.dao.OrderDao;
 import com.sunyu.rocketmq.model.Order;
 import lombok.extern.slf4j.Slf4j;
-
-
-
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
@@ -44,9 +40,11 @@ public class OrderTransactionListener implements RocketMQLocalTransactionListene
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("开始执行本地事务");
+        // 从消息头里获取msg
         String transId = (String)msg.getHeaders().get(RocketMQHeaders.TRANSACTION_ID);
         int value = transactionIndex.getAndIncrement();
         int status = value % 3;
+        // 存储事务id和事务的状态
         localTrans.put(transId, status);
         try{
             Order order = (Order) msg.getPayload();
@@ -66,6 +64,7 @@ public class OrderTransactionListener implements RocketMQLocalTransactionListene
      */
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
+        log.info("执行任务状态检查");
         String transId = (String)msg.getHeaders().get(RocketMQHeaders.TRANSACTION_ID);
         Integer status = localTrans.get(transId);
         if (null != status) {
